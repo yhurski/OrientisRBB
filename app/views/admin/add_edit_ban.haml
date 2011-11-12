@@ -1,0 +1,46 @@
+-
+-form_for :bans, @bans, :url => {:action => "bans", :act => 'save' } do |f|
+    -field_set_tag t(:ban_users) do
+        .inform_mess{:align => 'center'}
+            =t(:warning)
+        -if @bans      
+            -@bans.errors.each do |attr, msg|
+                .formError
+                    .inform_mess
+                        =attr.capitalize
+                        =t(:field_error)
+                        =msg.capitalize
+        #custom_param
+            %span
+                =f.label t(:username)
+            #custom_bans
+                =f.text_field :username
+        %br
+        #custom_param
+            %span
+                =f.label t(:email)
+            #custom_bans
+                =f.text_field :email
+        %br
+        #custom_param
+            %span
+                =f.label t(:ip_addr)
+            #custom_bans
+                =f.text_field :ip
+        %br
+        #custom_param
+            %span
+                =f.label t(:ban_msg)
+            #custom_bans
+                =f.text_field :message
+        %br
+        #custom_param
+            %span
+                =f.label t(:ban_expire)
+            #custom_bans
+                =f.text_field :expire
+        %br
+        %small
+            =t(:date_of_expired)
+    =f.submit t(:save)
+                  

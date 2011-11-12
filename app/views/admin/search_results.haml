@@ -1,0 +1,39 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =#will_paginate @searched_usrs
+%table{:width => '100%'}
+  -unless @searched_usrs.empty?
+    %tr
+      %th{:width => '30%'}
+        %span
+          =t(:u_info)
+      %th{:width => '20%'}
+        %span
+          =t(:t_s)
+      %th{:width => '5%'}
+        %span
+          =t(:posts)
+      %th{:width => '15%'}
+        %span
+          =t(:act)
+    -for user in @searched_usrs do
+      %tr.user_record
+        %td#title{:width => '30%'}
+          =t(:username)
+          =link_to h(user.name), {:controller => 'forum', :action => 'profile', :id => user.id}
+          %br
+          =t(:email)
+          =mail_to h(user.email)
+        %td#views{:align => 'center', :width => '10%'}
+          =user.get_user_status
+        %td#last_date_mess{:align => 'center', :width => '20%'}
+          =user.numposts
+        %td#last_user{:width => '20%', :align => 'center'}
+          =link_to t(:ip_stat), {:action => 'user_ip', :id => user.id}
+          %br
+          =link_to t(:user_posts), {:action => 'user_posts', :id => user.id}
+          %br
+          =#"by " + topic.last_poster
+  -else
+    =t(:no_results)

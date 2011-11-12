@@ -1,0 +1,253 @@
+-form_tag "/admin/search?act=search" do
+  -field_set_tag t(:enter_search_criteria) do
+    -if @error_hash && @error_hash[:name]
+      .formError
+        .inform_mess
+          =@error_hash[:name]
+    #custom_param
+      %span
+        =label_tag t(:username)
+      #custom_search
+        =text_field_tag "search_name",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:title]
+      .formError
+        .inform_mess
+          =@error_hash[:title]
+    #custom_param
+      %span
+        =label_tag t(:title)
+      #custom_search
+        =text_field_tag "search_title",nil,:size=>50,:maxlength=>50
+    %br 
+    -if @error_hash && @error_hash[:realname]
+      .formError
+        .inform_mess
+          =@error_hash[:realname]
+    #custom_param
+      %span
+        =label_tag t(:real_name)
+      #custom_search
+        =text_field_tag "search_realname",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:location]
+      .formError
+        .inform_mess
+          =@error_hash[:location]
+    #custom_param
+      %span
+        =label_tag t(:location)
+      #custom_search
+        =text_field_tag "search_location",nil,:size=>50,:maxlength=>50
+    %br 
+    -if @error_hash && @error_hash[:signature]
+      .formError
+        .inform_mess
+          =@error_hash[:signature]
+    #custom_param
+      %span
+        =label_tag t(:signature)
+      #custom_search
+        =text_field_tag "search_signature",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:adminnote]
+      .formError
+        .inform_mess
+          =@error_hash[:adminnote]
+    #custom_param
+      %span
+        =label_tag t(:admin_note)
+      #custom_search
+        =text_field_tag "search_adminnote",nil,:size=>50,:maxlength=>50
+    %br
+    %br
+    -if @error_hash && @error_hash[:email]
+      .formError
+        .inform_mess
+          =@error_hash[:email]
+    #custom_param
+      %span
+        =label_tag t(:email_addr)
+      #custom_search
+        =text_field_tag "search_email",nil,:size=>50,:maxlength=>50
+    %br
+    #custom_param
+      %span
+        =label_tag t(:web_site)
+      #custom_search
+        =text_field_tag "search_web",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:jabber]
+      .formError
+        .inform_mess
+          =@error_hash[:jabber]  
+    #custom_param
+      %span
+        =label_tag t(:jabber)
+      #custom_search
+        =text_field_tag "search_jabber",nil,:size=>50,:maxlength=>50
+    %br 
+    -if @error_hash && @error_hash[:icq]
+      .formError
+        .inform_mess
+          =@error_hash[:icq]
+    #custom_param
+      %span
+        =label_tag t(:icq), t(:icq)
+      #custom_search
+        =text_field_tag "search_icq",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:msn]
+      .formError
+        .inform_mess
+          =@error_hash[:msn]
+    #custom_param
+      %span
+        =label_tag t(:msn), t(:msn)
+      #custom_search
+        =text_field_tag "search_msn",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:aim]
+      .formError
+        .inform_mess
+          =@error_hash[:aim]
+    #custom_param
+      %span
+        =label_tag t(:aol), t(:aol)
+      #custom_search
+        =text_field_tag "search_aim",nil,:size=>50,:maxlength=>50
+    %br
+    -if @error_hash && @error_hash[:yahoo]
+      .formError
+        .inform_mess
+          =@error_hash[:yahoo]
+    #custom_param
+      %span
+        =label_tag t(:yahoo)
+      #custom_search
+        =text_field_tag "search_yahoo",nil,:size=>50,:maxlength=>50
+    %br
+    %br
+    -if @error_hash && @error_hash[:search_moreposts]
+      .formError
+        .inform_mess
+          =@error_hash[:search_moreposts]
+    #custom_param
+      %span
+        =label_tag t(:more_than)
+      #custom_search
+        =text_field_tag "search_moreposts", nil, :size => 7, :maxlength => 7
+      %br
+      -if @error_hash && @error_hash[:search_lessposts]
+        .formError
+          .inform_mess
+            =@error_hash[:search_lessposts]
+      %br
+    #custom_param
+      %span
+        =label_tag t(:less_than)
+      #custom_search
+        =text_field_tag "search_lessposts", nil, :size => 7, :maxlength => 7
+    %br
+    %br
+    -if @error_hash && @error_hash[:search_postafter]
+      .formError
+        .inform_mess
+          =@error_hash[:search_postafter]
+    #custom_param
+      %span
+        =label_tag t(:last_after)
+      #custom_search
+        =text_field_tag "search_postafter",nil,:size=>30,:maxlength=>30
+    %br
+    -if @error_hash && @error_hash[:search_postbefore]
+      .formError
+        .inform_mess
+          =@error_hash[:search_postbefore]
+    #custom_param
+      %span
+        =label_tag t(:last_before)
+      #custom_search
+        =text_field_tag "search_postbefore",nil,:size=>30,:maxlength=>30
+    %br
+    -if @error_hash && @error_hash[:search_regafter]
+      .formError
+        .inform_mess
+          =@error_hash[:search_regafter]
+    #custom_param
+      %span
+        =label_tag t(:reg_after)
+      #custom_search
+        =text_field_tag "search_regafter",nil,:size=>30,:maxlength=>30
+    %br
+    -if @error_hash && @error_hash[:search_regbefore]
+      .formError
+        .inform_mess
+          =@error_hash[:search_regbefore]
+    #custom_param
+      %span
+        =label_tag t(:reg_before)
+      #custom_search
+        =text_field_tag "search_regbefore",nil,:size=>30,:maxlength=>30
+    %br
+    %br
+  -field_set_tag t(:sort_results) do
+    #custom_param
+      %span
+        =label_tag t(:order_by)
+      #custom_search
+        =select_tag "s_orderby", options_for_select(@order_by.map, 'name')
+    %br
+    #custom_param
+      %span
+        =label_tag t(:sort_order)
+      #custom_search
+        =select_tag "s_ordersort", '<option selected=true value="asc">' + t(:asc) + '</option><option value="desc">' + t(:desc) + '</option>'
+    %br
+    #custom_param
+      %span
+        =label_tag t(:user_group)
+      #custom_search
+        =select_tag "s_usergroup", options_for_select(Group.all.map{|group| [group.name, group.id]} << ['Unverified users', -1] << ['All', 0], 0)
+  =submit_tag t(:search)
+  
+
+-content_for :additional_block do
+  %table#profile_main{:align => 'center', :style => 'margin:0% 0% 0% 0%;'}
+    %tr#shapka
+      %td{:align => 'center'}
+        =t(:find_ip)
+    %tr
+      %td
+        %br
+        -form_tag "/admin/user_ip" do
+          =t(:ip_addr)
+          =text_field_tag "ip",nil,:size=>20,:maxlength=>15
+          %br
+          %br
+          =submit_tag t(:search)
+
+          
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

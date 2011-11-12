@@ -1,0 +1,16 @@
+%table#t1{:width => '90%'}
+    %tr#shapka
+        %th{:height => '10%', :align => 'left'}
+            =t(:report)
+    %tr
+        %th#title{:height => '30%', :align => 'left'}   
+            -form_for :reports do |f|
+                -field_set_tag t(:rep_reason) do
+                    .formError
+                        =error_message_on 'new_report', "message", :css_class => 'inform_mess'
+                    =f.label t(:enter_reason)
+                    %br
+                    =f.text_area :message, :rows => 6, :cols => 80
+                    %br
+                =f.submit t(:send_btn)
+                =f.submit t(:clear_btn), {:type => 'reset'}

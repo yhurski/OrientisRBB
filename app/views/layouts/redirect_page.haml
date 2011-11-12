@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    -if flash[:isredir]
+      ="<meta http-equiv='refresh' content=\"#{flash[:redirtime]};#{flash[:redirpage]}\">"
+    %title
+      =@header
+  %body
+    =javascript_include_tag :defaults
+    =stylesheet_link_tag :all
+    =stylesheet_link_tag "#{@forum_style}/#{@forum_style}"
+    %table#t1{:width => '60%', :class => 'redirect'}
+      %tr#shapka_title
+        %td
+          =flash[:header]
+          =request.env['SERVER_NAME']
+      %tr
+        %td{:align => 'center'}
+          =yield :layout
+          

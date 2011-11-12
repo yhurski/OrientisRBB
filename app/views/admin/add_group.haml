@@ -1,0 +1,294 @@
+-form_for :group, @gr, :url => {:ident => params[:ident]} do |f|
+    -field_set_tag t(:title) do
+        #custom_param
+            %span
+                =f.label t(:group_name)
+            #custom_egrp
+                =f.text_field :name
+        %br
+        #custom_param
+            %span
+                =f.label t(:user_title)
+            #custom_egrp
+                =f.text_field :title_name
+    -unless @type                                                                                      #add group               
+        -field_set_tag t(:group_perms) do 
+            =f.check_box :g_moderator  
+            #check_box_txt
+                =f.label :g_moderator, t(:allow_moderate)
+            %br
+            =f.check_box :g_mod_edit_users
+            #check_box_txt
+                =f.label t(:moder_edit_users)
+            %br
+            %br
+            =f.check_box :g_mod_rename_users
+            #check_box_txt
+                =f.label t(:moder_rename)
+            %br
+            =f.check_box :g_mod_change_password
+            #check_box_txt
+                =f.label t(:moder_change)
+            %br
+            =f.check_box :g_mod_ban_users
+            #check_box_txt
+                =f.label t(:moder_ban)
+            %br
+            %br
+            =f.check_box :g_read_board
+            #check_box_txt
+                =f.label t(:allow_users_to_view)
+            %br 
+            %br
+            =f.check_box :g_view_users
+            #check_box_txt
+                =f.label t(:view_users_list)
+            %br
+            =f.check_box :g_post_replies
+            #check_box_txt
+                =f.label t(:post_replies)
+            %br
+            =f.check_box :g_post_topics
+            #check_box_txt
+                =f.label t(:post_topics)
+            %br
+            =f.check_box :g_edit_posts
+            #check_box_txt
+                =f.label t(:edit_posts)
+            %br
+            =f.check_box :g_delete_posts
+            #check_box_txt
+                =f.label t(:del_posts)
+            %br
+            =f.check_box :g_delete_topics
+            #check_box_txt
+                =f.label t(:del_topics)
+            %br
+            =f.check_box :g_set_title
+            #check_box_txt
+                =f.label t(:set_titles)
+            %br
+            =f.check_box :g_search
+            #check_box_txt
+                =f.label t(:use_search)
+            %br
+            =f.check_box :g_search_users
+            #check_box_txt
+                =f.label t(:search_users)                
+            %br
+            =f.check_box :g_send_email
+            #check_box_txt
+                =f.label t(:send_email)
+            %br
+            %br
+            
+        -field_set_tag t(:group_flood) do
+            %br
+            #custom_param
+                %span
+                    =f.label t(:post_flood)
+                #custom_egrp
+                    =f.text_field :g_post_flood
+            %br
+            #custom_param
+                %span
+                    =f.label t(:search_flood)
+                #custom_egrp
+                    =f.text_field :g_search_flood
+            %br
+            #custom_param
+                %span
+                    =f.label t(:email_flood)
+                #custom_egrp
+                    =f.text_field :g_email_flood   
+            %br
+    -if @type == 1
+        %br
+        -field_set_tag t(:group_perms) do
+            =f.check_box :g_read_board
+            #check_box_txt
+                =f.label t(:allow_users_to_view)
+            %br
+            %br 
+            %br
+            %br
+            =f.check_box :g_view_users
+            #check_box_txt
+                =f.label t(:view_users_list)
+            %br
+            =f.check_box :g_post_replies
+            #check_box_txt
+                =f.label t(:post_replies)
+            %br
+            =f.check_box :g_post_topics
+            #check_box_txt
+                =f.label t(:post_topics)
+            %br
+            =f.check_box :g_search
+            #check_box_txt
+                =f.label t(:use_search)
+            %br
+            =f.check_box :g_search_users
+            #check_box_txt
+                =f.label t(:search_users)
+            %br
+            %br
+        
+        -field_set_tag  t(:group_flood) do    
+            #custom_param
+                %span
+                    =f.label t(:post_flood)
+                #custom_egrp
+                    =f.text_field :g_post_flood
+            %br
+            #custom_param
+                %span
+                    =f.label t(:search_flood)
+                #custom_egrp
+                    =f.text_field :g_search_flood
+            %br
+    -if@type == 2                                                                    #default group without moderator permissions
+        %br
+        -field_set_tag t(:group_perms) do
+            .inform_mess{:align => 'center'}
+                =t(:default_for_new_users)
+            #custom_param
+                %span
+                    =f.check_box :g_read_board
+                #check_box_txt
+                    =f.label t(:allow_users_to_view)
+            %br 
+            %br
+            %br
+            =f.check_box :g_view_users
+            #check_box_txt
+                =f.label t(:view_users_list)
+            %br
+            =f.check_box :g_post_replies
+            #check_box_txt
+                =f.label t(:post_replies)
+            %br
+            =f.check_box :g_post_topics
+            #check_box_txt
+                =f.label t(:post_topics)
+            %br
+            =f.check_box :g_edit_posts
+            #check_box_txt
+                =f.label t(:edit_posts)
+            %br
+            =f.check_box :g_delete_posts
+            #check_box_txt
+                =f.label t(:del_posts)
+            %br
+            =f.check_box :g_delete_topics
+            #check_box_txt
+                =f.label t(:del_topics)
+            %br
+            =f.check_box :g_set_title
+            #check_box_txt
+                =f.label t(:set_titles)
+            %br
+            =f.check_box :g_search
+            #check_box_txt
+                =f.label t(:use_search)
+            %br
+            =f.check_box :g_search_users
+            #check_box_txt
+                =f.label t(:search_users)
+            %br
+            =f.check_box :g_send_email
+            #check_box_txt
+                =f.label t(:send_email)
+            %br
+            %br
+            
+        -field_set_tag t(:group_flood) do
+            .formError
+                =error_message_on 'gr', "g_post_flood",:prepend_text => t(:post_flood) + ' ',:css_class => 'inform_mess'
+            .formError 
+                =error_message_on 'gr', "g_search_flood",:prepend_text => t(:search_flood) + ' ',:css_class => 'inform_mess'
+            .formError 
+                =error_message_on 'gr', "g_email_flood",:prepend_text => t(:email_flood) + ' ',:css_class => 'inform_mess'
+            %br
+            #custom_param
+                %span
+                    =f.label t(:post_flood)
+                #custom_egrp
+                    =f.text_field :g_post_flood
+            %br
+            #custom_param
+                %span
+                    =f.label t(:search_flood)
+                #custom_egrp
+                    =f.text_field :g_search_flood
+            %br
+            #custom_param
+                %span
+                    =f.label t(:email_flood)
+                #custom_egrp
+                    =f.text_field :g_email_flood   
+            %br
+        %br
+    -unless @type == 0        
+        -field_set_tag t(:attach_perms) do
+            .formError
+                =error_message_on 'gr', "attach_upload_max_size",:prepend_text => t(:max_size_field),:css_class => 'inform_mess'
+            .formError 
+                =error_message_on 'gr', "attach_files_per_post",:prepend_text => t(:attach_per_post),:css_class => 'inform_mess'
+            %br 
+            #custom_param
+                %span
+                    =f.label t(:attach_rules)
+                #custom_egrp_attach
+                    =f.check_box :attach_allow_download  
+                    %small
+                        =f.label t(:allow_download)
+                    %br
+                    =f.check_box :attach_allow_upload
+                    %small
+                        =f.label t(:allow_upload)
+                    -unless @type == 1
+                        %br
+                        =f.check_box :attach_allow_delete_own
+                        %small
+                            =f.label t(:allow_delete)
+            %br
+            %br
+            %br
+            #custom_param
+                %span
+                    =f.label t(:max_size)
+                #custom_egrp_attach
+                    =f.text_field :attach_upload_max_size
+            %br
+            #custom_param
+                %span
+                    =f.label t(:attaches_per_post)
+                #custom_egrp_attach
+                    =f.text_field :attach_files_per_post
+            %br
+            #custom_param
+                %span
+                    =f.label t(:allowed_files)
+                #custom_egrp_attach
+                    =f.text_field :attach_disallowed_extensions            
+              
+    %br
+    - if @type || @gr
+        =f.hidden_field(:id)
+        =f.submit t(:update)
+    -else    
+        =f.submit t(:create)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+              

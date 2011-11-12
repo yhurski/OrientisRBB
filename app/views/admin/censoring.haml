@@ -1,0 +1,33 @@
+-field_set_tag t(:add_new) do
+    .inform_mess{:align => 'center'}
+        =t(:short_help)
+        =link_to t(:settings_feat), :controller => 'admin', :action => 'features'
+    -form_for :censors, @censor, :url => {:action => 'censoring'} do |f|    
+        =f.error_messages
+        %br
+        #block
+            #cens1
+                =f.label t(:cens_word)
+                %br
+                =f.text_field(:source_word)
+            #cens2
+                =f.label t(:repl)
+                %br
+                =f.text_field(:dest_word)
+            #cens_btn
+                =f.submit t(:add), :name => 'submit'
+    %br
+    %br
+    -if Censor.all.blank?
+        .inform_mess{:align => 'center'}
+            =t(:no_cens)
+    -else
+        %span
+            =t(:existing_words)
+            %br
+    -for  source_word in Censor.all do
+        -form_for :censors, source_word, :url => {:action => 'censoring', :id => source_word.id}  do |f|
+            =f.text_field :source_word
+            =f.text_field :dest_word
+            =f.submit t(:update), :name => 'submit'
+            =f.submit t(:remove), :name => 'submit'

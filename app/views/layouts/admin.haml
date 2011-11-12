@@ -1,0 +1,198 @@
+!!!
+%html
+  %head
+    %title
+      =@controller.action_name
+  %body
+    =javascript_include_tag :defaults
+    =stylesheet_link_tag :all
+    =stylesheet_link_tag "#{@forum_style}/#{@forum_style}"
+    %table#t1{:width => '90%'}
+      %tr#shapka_title
+        %td
+          =render :partial => 'forum/board_title', :locals => {:title => Configs.get_config('board_title'),  
+                                                                          :desc => Configs.get_config('board_desc')}
+      %tr#shapka
+        %th{:width => '100%', :height => '10%', :align => 'left'}
+          =link_to t(:list), :action => 'main', :controller => 'forum'
+          =link_to t(:users), :action => 'users_list', :controller => 'forum'
+          -if @usr.nil?
+            =link_to t(:registration), :action => 'regist', :controller => 'forum'
+            =link_to t(:login), :action => 'login', :controller => 'forum'
+          -else
+            =link_to t(:profile), :action => 'main', :controller => 'profile'
+            =link_to t(:logout), :action => 'logout', :controller => 'forum'
+            =link_to t(:search), :action => 'search', :controller => 'addendum'
+            -if @usr.admin? || @group_permissions.moderator?
+              =#link_to t(:administration), :controller => 'admin', :action => 'info'
+              =t(:administration)
+      %tr
+        -unless @usr.nil?
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =render :partial => 'forum/login_status', :object => @usr
+        -else  
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =t(:not_logined)
+    %table#t2{:width => '90%'}
+      %tr
+        %td{:valign => 'top', :width => '20%'}
+          %table#profile_menu
+            %tr#shapka{:align => 'center'}
+              %td{:width => '100%'}
+                %span#table_title
+                  =t(:administration)
+            %tr
+              %td#menu_elem
+                -if @usr.group.admin?
+                  %a{:href => '#', :onclick => "ShowOneHideOthers('sm1');"}
+                    =t(:start)
+                  #sm1{:style => "display:none;"}  
+                    =link_to t(:info), :action => 'info'
+                    %br
+                    =link_to t(:cat), :action => 'manage_subpartitions'
+                    %br
+                    =link_to t(:f), :action => 'manage_partitions'
+                    %br
+                  %br
+                  %a{:href => '#', :onclick => "ShowOneHideOthers('sm2');"}
+                    =t(:setting)
+                  #sm2{:style => "display:none;"}
+                    =link_to t(:setup), :action => 'setup'
+                    %br
+                    =link_to t(:feat), :action => 'features'
+                    %br
+                    =link_to t(:notices), :action => 'notices'
+                    %br
+                    =link_to t(:email), :action => 'email'
+                    %br
+                    =link_to t(:registration), :action => 'registration'
+                    %br
+                    =link_to t(:cens), :action => 'censoring'
+                    %br
+                    =link_to t(:attach), :action => 'attach'
+                    %br
+                  %br
+                  %a{:href => '#', :onclick => "ShowOneHideOthers('sm3');"}
+                    =t(:users)
+                  #sm3{:style => "display:none;"}
+                    =link_to t(:search), :action => 'search'
+                    %br
+                    =link_to t(:groups), :action => 'groups'
+                    %br
+                    =link_to t(:ranks), :action => 'ranks'
+                    %br
+                    =link_to t(:bans), :action => 'bans'
+                    %br
+                  %br
+                  %a{:href => '#', :onclick => "ShowOneHideOthers('sm4');"}
+                    =t(:manage)
+                  #sm4{:style => "display:none;"}  
+                    =link_to t(:reports), :action => 'reports'
+                    %br
+                    =link_to t(:prune), :action => 'prune_topics'
+                    %br
+                    =link_to t(:m_mode), :action => 'maintenance'
+                    %br
+                    =link_to t(:attach), :action => 'attachments'
+                    %br
+                  %br
+                -elsif @usr.group.moderator?
+                  =link_to t(:info), :action => 'info'
+                  %br
+                  =link_to t(:search), :action => 'search'
+                  -if @usr.group.g_mod_ban_users
+                    %br
+                    =link_to t(:bans), :action => 'bans'
+                    %br
+                    =link_to t(:reports), :action => 'reports'
+                    %br
+
+        %td    
+          %table{:width => '100%'}
+            %tr
+              %td
+                %table#profile_main{:align => 'right'}
+                  %tr#shapka
+                    %td{:align => 'left'}
+                      %span#table_title
+                        ~#Add here item from left menu
+                        -if params[:action] == 'info'
+                          =t(:st_info)
+                        -if params[:action] == 'manage_subpartitions'
+                          =t(:st_cat)
+                        -if params[:action] == 'manage_partitions'
+                          =t(:st_for)
+                        -if params[:action] == 'setup'
+                          =t(:set_set)
+                        -if params[:action] == 'features'
+                          =t(:set_feat)
+                        -if params[:action] == 'notices'
+                          =t(:set_not)
+                        -if params[:action] == 'email'
+                          =t(:set_email)
+                        -if params[:action] == 'registration'
+                          =t(:set_reg)
+                        -if params[:action] == 'censoring'
+                          =t(:set_cens)
+                        -if params[:action] == 'attach'
+                          =t(:set_attach)
+                        -if params[:action] == 'search'
+                          =t(:u_search)
+                        -if params[:action] == 'groups'
+                          =t(:u_groups)
+                        -if params[:action] == 'ranks'
+                          =t(:u_ranks)
+                        -if params[:action] == 'bans'
+                          =t(:u_bans)
+                        -if params[:action] == 'reports'
+                          =t(:man_rep)
+                        -if params[:action] == 'prune_topics'
+                          =t(:man_prune)
+                        -if params[:action] == 'maintenance'
+                          =t(:man_man)
+                        -if params[:action] == 'attachments'
+                          =t(:man_attach)
+                  %tr#user_profile_field
+                    %td{:align => 'left'}
+                      %b
+                        -if params[:action] == 'info'
+                          =t(:welc)
+                        -if params[:action] == 'manage_subpartitions'
+                          =t(:add_cat)
+                        -if params[:action] == 'manage_partitions'
+                          =t(:add_forum)
+                        -if params[:action] == 'setup'
+                          =t(:gen)
+                        -if params[:action] == 'features'
+                          =t(:det)
+                        -if params[:action] == 'notices'
+                          =t(:display)
+                        -if params[:action] == 'email'
+                          =t(:email_set)
+                        -if params[:action] == 'registration'
+                          =t(:reg_set)
+                        -if params[:action] == 'censoring'
+                          =t(:cens_set)
+                        -if params[:action] == 'attach'
+                          =t(:attach_set)
+                        -if params[:action] == 'search'
+                          =t(:find)
+                        -if params[:action] == 'groups'
+                          =t(:man_of_users)
+                        -if params[:action] == 'ranks'
+                          =t(:add_edit_ranks)
+                        -if params[:action] == 'bans'
+                          =t(:ban_users)
+                        -if params[:action] == 'reports'
+                          =t(:new_rep)
+                        -if params[:action] == 'prune_topics'
+                          =t(:prune_top)
+                        -if params[:action] == 'maintenance'
+                          =t(:setup_main)
+                        -if params[:action] == 'attachments'
+                          =t(:man_of_attaches)
+                  %tr
+                    %td
+                      =yield :layout
+          =#yield :additional_block
+    =render :partial => "forum/forum_basement"

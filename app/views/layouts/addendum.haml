@@ -1,0 +1,44 @@
+!!!
+%html
+  %head
+    %title
+
+  %body
+    =javascript_include_tag :defaults
+    =stylesheet_link_tag :all
+    =stylesheet_link_tag "#{@forum_style}/#{@forum_style}"
+    %table#t1{:width => '90%'}
+      %tr#shapka_title
+        %td
+          =render :partial => 'forum/board_title', :locals => {:title => Configs.get_config('board_title'),
+                                                                          :desc => Configs.get_config('board_desc')}
+      %tr#shapka
+        %th{:width => '100%', :height => '10%', :align => 'left'}
+          =link_to t(:list), :action => 'main', :controller => 'forum'
+          -if @group_permissions.g_view_users
+            =link_to t(:users), :action => 'users_list', :controller => 'forum'
+          -if @usr.nil?
+            -if Configs.get_config('allow_registration').to_bool
+              =link_to t(:registration), :action => 'regist', :controller => 'forum'
+            =link_to t(:login), :action => 'login', :controller => 'forum'
+          -else
+            -if params[:action] == 'change_pass' || params[:action] == 'change_email'
+              =t(:profile)
+            -else
+              =link_to t(:profile), :action => 'main', :controller => 'profile'
+            =link_to t(:logout), :action => 'logout', :controller => 'forum'
+          -if @group_permissions.g_search && params[:action] != 'change_pass' && params[:action] != 'change_email'
+            =t(:search)
+          -if @group_permissions.admin? || @group_permissions.moderator?
+            =link_to t(:administration), :controller => 'admin', :action => 'info'
+      %tr
+        -unless @usr.nil?
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =render :partial => 'forum/login_status', :object => @usr
+        -else
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =t(:not_logined)
+        =render :partial => 'forum/show_notice_block'
+  =yield :layout
+      
+  =render :partial => "forum/forum_basement"

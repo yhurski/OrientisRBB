@@ -1,0 +1,24 @@
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:confirm_rules)
+    %tr  
+      %th#title{:width => '100%', :height => '30%', :align => 'left'}
+        =t(:you_must_agree)
+        %hr{:id => "divine_line"}
+        %br
+    %tr
+      %td
+        .inform_mess{:align=>"center"}
+          =Configs.get_config('rules_text')
+    %tr
+      %td{:align => 'center'}
+        -form_tag :action => 'rules_confirmation' do
+          %b
+            =label_tag t(:agreement)
+          =check_box_tag 'agree_rules',1,false
+          =t(:agree_to_rules)
+          %hr{:id => "divine_line"}
+          =submit_tag t(:agree_btn), :name => 'agree'
+          =submit_tag t(:cancel_btn), :name => 'cancel'
+

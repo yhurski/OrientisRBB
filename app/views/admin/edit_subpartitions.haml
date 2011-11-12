@@ -1,0 +1,77 @@
+-form_tag "/admin/edit_subpartitions/#{params[:id]}" do
+  -field_set_tag (t(:edit_f) + @subpartition.title) do
+    %span
+      =t(:f_name)
+    #custom_edit_subpartition
+      =text_field_tag 'update[title]', @subpartition.title, :size => 50, :maxlength => 255
+    %br
+    %br
+    %span
+      =t(:f_pos)
+    #custom_edit_subpartition
+      =text_field_tag 'update[part_pos]', @subpartition.part_pos, :size => 3, :maxlength => 5
+    %br
+    %br
+    %span
+      =t(:desc)
+    #custom_edit_subpartition
+      = text_area_tag 'update[desc]', @subpartition.desc, :size => "60x5"
+    %br
+    %br
+    %span
+      =t(:to_cat)
+    #custom_edit_subpartition
+      -if params[:update] && params[:update][:partition_id]
+        =select_tag 'update[partition_id]', options_for_select(@partitions.map{|partition| [partition.title, partition.id]}, params[:update][:partition_id])
+      -else  
+        =select_tag 'update[partition_id]', options_for_select(@partitions.map{|partition| [partition.title, partition.id]}, @subpartition.partition.id)
+  -field_set_tag t(:edit_f_perms) do
+    .inform_mess
+      %ul
+        %li
+          =t(:the_read_f)
+        %li
+          =t(:perms_restored)
+        %li
+          =t(:perms_default)
+          =link_to t(:user_groups), :controller => 'admin', :action => 'groups'
+          =t(:unless_suf)
+        %li
+          =t(:forum_admins)
+    %br
+
+    -for group in @groups do
+      -#debugger
+      %b
+        ="#{group.name}"
+      =hidden_field_tag "permissions[#{group.id}][read_forum]"
+      -if group.g_read_board == group.forum_perms.find_by_subpartition_id(params[:id]).read_forum
+        -if group.g_read_board
+          =check_box_tag "permissions[#{group.id}][read_forum]", 1, group.g_read_board
+        -else  
+          =check_box_tag "permissions[#{group.id}][read_forum]", 1, group.g_read_board, :disabled => true
+          =label_tag t(:read_forum)
+      -else
+        -if group.g_read_board
+          =check_box_tag "permissions[#{group.id}][read_forum]",1,group.forum_perms.find_by_subpartition_id(params[:id]).read_forum
+        -else  
+          =check_box_tag "permissions[#{group.id}][read_forum]",1,group.forum_perms.find_by_subpartition_id(params[:id]).read_forum, :disabled => true  
+          =label_tag nil, t(:read_forum_s)
+            
+      -if group.g_post_replies == group.forum_perms.find_by_subpartition_id(params[:id]).post_replies
+        =check_box_tag "permissions[#{group.id}][post_replies]", 1, group.g_post_replies
+        =label_tag nil, t(:post_replies)
+      -else    
+        =check_box_tag "permissions[#{group.id}][post_replies]",1,group.forum_perms.find_by_subpartition_id(params[:id]).post_replies
+        =label_tag t(:post_replies_s)
+              
+      -if group.g_post_topics == group.forum_perms.find_by_subpartition_id(params[:id]).post_topics  
+        =check_box_tag "permissions[#{group.id}][post_topics]",1,group.g_post_topics
+        =label_tag t(:post_topics)
+      -else  
+        =check_box_tag "permissions[#{group.id}][post_topics]",1,group.forum_perms.find_by_subpartition_id(params[:id]).post_topics
+        =label_tag nil, t(:post_topics_s)
+      %br
+      =hidden_field_tag 'act', 'upd'
+      %br
+  =submit_tag t(:save)

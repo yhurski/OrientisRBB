@@ -1,0 +1,25 @@
+-form_tag "/admin/notices" do
+  -field_set_tag t(:display_notices_on_page) do
+    #custom_param
+      %span
+        =label_tag t(:display_notice)
+      #custom_notice
+        =check_box_tag "notices[allow_notice]", 1, Configs.get_config('allow_notice').to_bool
+        %small
+          =t(:display_a_notice)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:notice_title)
+      #custom_notice
+        =text_field_tag "notices[notice_title]", Configs.get_config('notice_title'), :size=>50, :maxlength=>255
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:notice_msg)
+    =text_area_tag "notices[notice_message]", Configs.get_config('notice_message'), :size=>"80x4"
+    %br
+    %br  
+    %hr
+    =submit_tag t(:save)   

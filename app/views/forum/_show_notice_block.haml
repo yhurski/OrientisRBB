@@ -1,0 +1,12 @@
+-if Configs.get_config('allow_notice').to_bool && ! (Configs.get_config('notice_title').blank? && Configs.get_config('notice_message').blank?)
+  %table#t1{:width => '90%'}
+    -unless Configs.get_config('notice_title').blank?
+      %tr#title{:width => '100%', :height => '10%', :align => 'left'}
+        %td
+          %b
+            =Configs.get_config('notice_title')
+            %hr#notice_line
+    -unless Configs.get_config('notice_message').blank?          
+      %tr#title{:width => '100%', :height => '10%', :align => 'left'}
+        %td
+          =Configs.get_config('notice_message') 

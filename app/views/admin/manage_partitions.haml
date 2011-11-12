@@ -1,0 +1,43 @@
+-form_tag 'manage_partitions' do
+  -field_set_tag t(:add_forum) do
+    .inform_mess
+      =t( :new_forum_msg)
+    %div
+      .formError
+        =error_message_on 'result_part', 'title', :css_class => 'inform_mess'
+      .formError
+        =error_message_on 'result_part', 'part_pos', :css_class => 'inform_mess'
+    %b
+      =t(:new_forum_name)
+    -if params[:add] && params[:add].has_key?(:title)
+      =text_field_tag 'add[title]', params[:add][:title], :size => 50, :maxlength => 255
+    -else
+      =text_field_tag 'add[title]', nil, :size => 50, :maxlength => 255
+    %b
+      =t(:position)
+    -if params[:add] && params[:add].has_key?(:part_pos)
+      =text_field_tag 'add[part_pos]', params[:add][:part_pos], :size => 3, :maxlength => 5
+    -else
+      =text_field_tag 'add[part_pos]', 0, :size => 3, :maxlength => 5
+    &nbsp;&nbsp;&nbsp;
+    =submit_tag t(:add_forum_btn)
+%br
+
+-form_tag 'manage_partitions' do
+  -field_set_tag t(:delete_forum) do
+    %b
+      =t(:select_forum)
+    =select_tag 'delete[partition]', options_for_select(@partitions.map{|part| [part.title, part.id]})
+    =submit_tag t(:delete)
+%br
+
+-field_set_tag t(:edit_forum) do
+  -for partition in @partitions do
+    -form_tag :action => 'manage_partitions', :id => partition.id do    
+      %b
+        =t(:forum_name)
+      =text_field_tag "update[title]", partition.title, :size => 50, :maxlength => 255
+      %b
+        =t(:position)
+      =text_field_tag "update[part_pos]", partition.part_pos, :size => 3, :maxlength => 5
+      =submit_tag t(:update)

@@ -1,0 +1,334 @@
+-form_tag "/admin/features" do
+  -field_set_tag t(:general_features) do
+    #custom_param
+      %span
+        =label_tag t(:searching)
+      #custom_share
+        =check_box_tag "allow_search",1, @all_config_records.find{|record| record.name == "allow_search"}.value
+        %small
+          =t(:allow_users_search)
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:user_ranks)
+      #custom_share
+        =check_box_tag "allow_rank",1,@all_config_records.find{|record| record.name == "allow_rank"}.value
+        %small
+          =t(:enable_ranking)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:censoring)
+      #custom_share
+        =check_box_tag "allow_cens",1,@all_config_records.find{|record| record.name == "allow_cens"}.value
+        %small
+          =t(:enable_censoring)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:quick_jump_menu)
+      #custom_share
+        =check_box_tag "allow_jumpmenu",1,@all_config_records.find{|record| record.name == "allow_jumpmenu"}.value
+        %small
+          =t(:enable_jump_menu)
+    %br 
+    #custom_param
+      %span
+        =label_tag t(:show_version)
+      #custom_share
+        =check_box_tag "show_version",1,@all_config_records.find{|record| record.name == "show_version"}.value
+        %small
+          =t(:enable_show_version)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:online_list)
+      #custom_share
+        =check_box_tag "show_usersonline",1,@all_config_records.find{|record| record.name == "show_usersonline"}.value
+        %small
+          =t(:enable_online_list)
+    %br
+  -field_set_tag t(:topics_posts_features) do
+    #custom_param
+      %span
+        =label_tag t(:quick_post)
+      #custom_themes
+        =check_box_tag "show_quickpost",1,@all_config_records.find{|record| record.name == "show_quickpost"}.value
+        %small
+          =t(:add_quick_post)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:subsc)
+      #custom_themes
+        =check_box_tag "allow_topicssubsc", 1, @all_config_records.find{|record| record.name == "allow_topicssubsc"}.value
+        %small
+          =t(:add_subsc)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:guest_posting)
+      #custom_themes
+        =check_box_tag "allow_guestpost", 1, @all_config_records.find{|record| record.name == "allow_guestpost"}.value
+        %small
+          =t(:allow_guest_posting)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:user_has_posted)
+      #custom_themes
+        =check_box_tag "allow_usersdot", 1, @all_config_records.find{|record| record.name == "allow_usersdot"}.value
+        %small
+          =t(:allow_user_has_posted)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:topic_views)
+      #custom_themes
+        =check_box_tag "show_views", 1, @all_config_records.find{|record| record.name == "show_views"}.value
+        %small
+          =t(:show_topic_views)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:user_post_count)
+      #custom_themes
+        =check_box_tag "allow_postcount", 1, @all_config_records.find{|record| record.name == "allow_postcount"}.value
+        %small
+          =t(:allow_user_post_count)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:user_info_in_posts)
+      #custom_themes
+        =check_box_tag "show_userinfo", 1, @all_config_records.find{|record| record.name == "show_userinfo"}.value
+        %small
+          =t(:allow_user_info_in_posts)
+    %br
+    %br
+  -field_set_tag t(:topic_post_content) do
+    #custom_param
+      %span
+        =label_tag t(:msg_options)
+      #custom_msg
+        =check_box_tag "allow_bbc",1,@all_config_records.find{|record| record.name == "allow_bbc"}.value
+        %small
+          =t(:bbc_posts)
+    
+    #custom_param
+      %span        
+      #custom_msg    
+        =check_box_tag "allow_bbc_img",1,@all_config_records.find{|record| record.name == "allow_bbc_img"}.value
+        %small
+          =t(:img_posts) 
+    #custom_param
+      %span
+      #custom_msg
+        =check_box_tag "show_graphsmiles",1,@all_config_records.find{|record| record.name == "show_graphsmiles"}.value
+        %small
+          =t(:convert_smiles)
+    %br
+    #custom_param
+      %span
+      #custom_msg
+        =check_box_tag "allow_bbcurl",1,@all_config_records.find{|record| record.name == "allow_bbcurl"}.value
+        %small
+          =t(:allow_bbc_url)
+    %br
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:allow_all_capitals)
+      #custom_msg
+        =check_box_tag "allow_capitals",1,@all_config_records.find{|record| record.name == "allow_capitals"}.value
+        %small
+          =t(:allow_msg_capitals)
+    #custom_param
+      %span
+      #custom_msg
+        =check_box_tag "allow_capitalssubj",1,@all_config_records.find{|record| record.name == "allow_capitalssubj"}.value
+        %small
+          =t(:allow_capitals_in_subj)
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:max_quote_depth)
+      #custom_msg
+        =text_field_tag "quote_depth",@all_config_records.find{|record| record.name == "quote_depth"}.value,:size=>3,:maxlength=>3
+        
+    %br
+    %br
+  -field_set_tag t(:user_signatures) do
+    #custom_params
+      %span
+        =label_tag t(:allow_signature)
+      #custom_msg
+        =check_box_tag "allow_signature",1,@all_config_records.find{|record| record.name == "allow_signature"}.value
+        %small
+          =t(:allow_attach_signature)
+    %br
+    #custom_params
+      %span
+        =label_tag t(:signature_content)
+      #custom_msg
+        =check_box_tag "allow_bbcsignature",1,@all_config_records.find{|record| record.name == "allow_bbcsignature"}.value
+        %small
+          =t(:allow_bbc_in_sign)
+    #custom_params
+      %span
+      #custom_msg
+        =check_box_tag "allow_bbcimgsignature",1,@all_config_records.find{|record| record.name == "allow_bbcimgsignature"}.value
+        %small
+          =t(:allow_img_in_sign)
+    #custom_params
+      %span
+      #custom_msg
+        =check_box_tag "convert_smilestoicon",1,@all_config_records.find{|record| record.name == "convert_smilestoicon"}.value
+        %small
+          =t(:convert_smiles_to_icons_in_sign)
+    %br
+    %br
+    %br
+    #custom_params
+      %span
+        =label_tag t(:allow_all_capitals_in_sign)
+      #custom_msg
+        =check_box_tag "allow_capitalssign",1,@all_config_records.find{|record| record.name == "allow_capitalssign"}.value
+        %small
+          =t(:allow_sing_contains_capitals)
+    %br
+    #custom_params
+      %span
+        =label_tag t(:max_chars_in_sign)
+      #custom_msg
+        =text_field_tag "maxchar_signature",@all_config_records.find{|record| record.name == "maxchar_signature"}.value, :size=>6,:maxlength=>6
+    %br
+    #custom_params
+      %span
+        =label_tag t(:max_lines_in_sign)
+      #custom_msg
+        =text_field_tag "maxlines_signature",@all_config_records.find{|record| record.name == "maxlines_signature"}.value,:size=>6,:maxlength=>3
+    %br
+    %br
+  -field_set_tag t(:user_avatar) do
+    #custom_params
+      %span
+        =label_tag t(:allow_avatars)
+      #custom_msg
+        =check_box_tag "allow_avatars",1,@all_config_records.find{|record| record.name == "allow_avatars"}.value
+        %small
+          =t(:allow_upload_avatars)
+    %br
+    #custom_params
+      %span
+        =label_tag t(:avatar_upload_dir)
+      #custom_msg
+        =text_field_tag "dir_avatars",@all_config_records.find{|record| record.name == "dir_avatars"}.value,:size=>50, :maxlength=>255
+    %br
+    #custom_params
+      %span
+        =label_tag t(:avatar_max_width)
+      #custom_msg
+        =text_field_tag "maxwidth_avatars",@all_config_records.find{|record| record.name == "maxwidth_avatars"}.value,:size=>5,:maxlength=>5
+    %br
+    %br
+    #custom_params
+      %span
+        =label_tag t(:avatar_max_height)
+      #custom_msg
+        =text_field_tag "maxheight_avatars",@all_config_records.find{|record| record.name == "maxheight_avatars"}.value,:size=>5,:maxlength=>5
+    %br
+    #custom_params
+      %span
+        =label_tag t(:avatar_max_size)
+      #custom_msg
+        =text_field_tag "maxsize_avatars",@all_config_records.find{|record| record.name == "maxsize_avatars"}.value,:size=>6,:maxlength=>6
+    %br
+    %br
+  =submit_tag t(:save)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+          
+      
+      
+      
+      
+      
+                    
+        
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+                        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+          
+      
+      
+      
+      
+      
+                        
+        

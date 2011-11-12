@@ -1,0 +1,41 @@
+-form_tag "/profile/administration/#{@usr.id}" do
+  -field_set_tag t(:user_administration) do
+    #custom_param
+      %span
+        =t(:ban_user)
+      #custom_profile_administration
+        =link_to t(:ban_user_via_console), :controller => 'admin', :action => 'bans', :id => @usr.id, :act => 'add'
+    %br
+    -if @privilege_user.group.admin?
+      #custom_param
+        %span
+          =t(:delete_user)
+        #custom_profile_administration
+          =link_to t(:permanently_delete_user)
+      %br
+      %br
+      #custom_param
+        %span
+          =t(:assign_user)
+        #custom_profile_administration
+          =select_tag 'profile[group]', options_for_select(@groups.map{|group| [group.name, group.id]}, @usr.group.id)
+      %br
+      -if @usr.group.g_moderator
+        %span
+          =t(:moderate_assignment)
+        #profile_administration_subpart{:align => 'center'}
+          -for partition in @partitions do
+            %b
+              =partition.title
+            %br
+            -for subpartition in partition.subpartitions do
+              -if subpartition.users.map(&:id).include? @usr.id
+                =check_box_tag "profile[moderator][#{subpartition.id}]",1,true
+              -else
+                =check_box_tag "profile[moderator][#{subpartition.id}]",1,false
+              =subpartition.title
+              %br
+          %br
+  =submit_tag t(:update)
+          
+    

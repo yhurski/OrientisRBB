@@ -1,0 +1,24 @@
+%table#t1{:width => "9%"}
+  %tr#shapka
+    %th{:width => "100%", :height => "10%", :align => "left"}
+      =t(:passwd_rec)
+  %tr
+    %th#title{:width => "100%", :height => "30%", :align => "left"}
+      .inform_mess
+        =t(:send_to_email)
+      -unless @remind_pass_error.nil?
+        .formError
+          .inform_mess{:align => "center"}
+            =@remind_pass_error
+      -form_tag '/forum/remind'  do
+        =label_tag t(:username_ttl)
+        =label_tag t(:enter_email)
+        %br
+        -if params[:user]
+          =text_field_tag 'user[name]', params[:user][:name], :size => '25', :maxlength => '70'
+          =text_field_tag 'user[email]', params[:user][:email], :size => '25', :maxlength => '70'
+        -else
+          =text_field_tag 'user[name]', nil, :size => '25', :maxlength => '70'
+          =text_field_tag 'user[email]', nil, :size => '25', :maxlength => '70'
+        %br
+        =submit_tag t(:send_btn)

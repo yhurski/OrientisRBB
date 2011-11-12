@@ -1,0 +1,38 @@
+-form_tag "/profile/individual/#{params[:id]}" do
+  -field_set_tag t(:set_signature) do
+    =label_tag t(:max_chars) + h(Configs.get_config('maxchar_signature')) + '/' + t(:max_lines) + h(Configs.get_config('maxlines_signature'))
+    %br
+    .formError
+      =error_message_on 'usr', "signature", :prepend_text => t(:signature_field), :css_class => 'inform_mess'
+    %br
+    =text_area_tag "users[signature]", @usr.signature, :size => "100x4"
+    %br
+    %span
+      =t(:bbcode)
+    -if Configs.get_config('allow_bbcsignature').to_bool
+      =link_to t(:enable), :controller => 'forum', :action => 'bbcode_help'
+    -else
+      =t(:disable)
+    &nbsp;&nbsp;&nbsp;
+    %span
+      =t(:img_tag)
+    -if Configs.get_config('allow_bbcimgsignature').to_bool
+      =link_to t(:enable), :controller => 'forum', :action => 'bbcodeimg_help'
+    -else
+      =t(:disable)
+    &nbsp;&nbsp;&nbsp;
+    %span
+      =t(:convert_smiles)
+    -if Configs.get_config('convert_smilestoicon').to_bool
+      =link_to t(:enable), :controller => 'forum', :action => 'smiles_help'
+    -else
+      =t(:disable)
+    %br
+    -unless @usr.reload.signature.nil?
+      %p
+        =h @usr.signature
+    -else
+      %p 
+        =t(:none_signature)
+  =submit_tag t(:save)
+  

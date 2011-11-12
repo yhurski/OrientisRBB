@@ -1,0 +1,182 @@
+a:hover {
+	color: #0000FF;			
+}
+		
+a:visited {
+	color: #0000FF;
+}
+		
+body {
+	background-color: #99CCFF;
+	color: #000000;
+}
+		
+div.title {
+	border: 1px solid #6699FF;
+}		
+
+div.user {
+	 border: 1px solid red;
+}
+
+div.date {
+	 border: 1px solid red;
+}
+
+td#title {
+	border-top: 1px solid #6699FF;
+	border-right: 1px solid #6699ff; 
+}
+
+td#views {
+	border-top: 1px solid #6699FF;
+	border-right: 1px solid #6699ff; 
+}
+
+td#last_date_mess {
+	border-top: 1px solid #6699FF;
+	border-right: 1px solid #6699ff; 
+}
+
+td#last_user {
+	border-top: 1px solid #6699FF;
+}
+
+div.up_post {
+	background-color: #6699FF;
+}
+
+div#post {
+	font-family: "Helvetica Nue", serif;
+}
+
+tr#shapka {
+	background-color: #6699FF;
+	border: 1px solid green; 
+}
+
+tr#user_profile_field{
+        background-color: #aaaaaa;
+}
+
+
+table#t1{
+	border: 1px solid green;
+}
+
+#login_form{
+	border: 1px solid green;
+}
+
+div#login_text{
+	font-weight: normal;	
+}
+
+div#login,  div#passwd, div#mail {
+	border: 1px solid green;			
+}
+
+table#profile_menu {
+	background-color: #88BBEE;
+}
+
+td#menu_elem {
+	font-weight: bold;
+}
+
+table#profile_main {
+	background-color: #88BBEE;
+	border: 1px solid #6699FF;	
+}
+
+.inform_mess{
+	background-color: #F1F1E3;
+	border:1px dashed #555555;
+	font-size: smaller;
+}
+
+tr#shapka_title {
+	background-color:#5555ff;
+}
+
+table#post_table {
+    border-width: 0px;	
+	margin-bottom: 10px;
+	border-collapse: collapse;
+	box-shadow		: 5px 5px 5px #000000;
+	-moz-box-shadow		: 5px 5px 5px #ccc;
+	-webkit-box-shadow	: 5px 5px 5px #ccc;
+}
+
+table#posts_moderate_panel {
+	align: right; 
+	background-color: #ffcc00;
+	border-width: 0px;	
+	margin-bottom: 10px;	
+	border-collapse: collapse;
+	box-shadow		: 5px 5px 5px #000033;
+	-moz-box-shadow		: 5px 5px 5px #ccc;
+	-webkit-box-shadow	: 5px 5px 5px #ccc;
+}
+
+#posts_moderate_panel_td {
+	padding: 2px 10px 2px 10px;
+}
+
+#post_title {
+	background-color:#999999;
+}
+
+#post_userbar {
+	background-color:#6699FF;
+}	
+
+#redirect_div{
+	border: 3px solid #6699FF;
+}
+
+hr#signature_line {
+	border: none;
+    color: #888888;
+    background-color: #888888;
+}
+
+ .formError > .inform_mess {
+	border:1px double #ff5555;
+	color: #ff0000;
+}
+
+#post_links{
+	border-color: red;
+}
+
+.post_attach{
+	background-color: #F7F7F7;
+	border: groove 1px #555555;
+	font-size: smaller;
+}
+
+.report_mess > .inform_mess{
+	background-color: #F7F7F7;
+	border:1px solid #555555;
+	/*font-size: smaller; */
+}
+
+	hr#notice_line{
+		color: #008000;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

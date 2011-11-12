@@ -1,0 +1,601 @@
+/* Global */
+
+	
+div.title {
+       float: left;
+       padding: 50px;
+       margin: 10px;
+}
+	  
+div.user {
+       float: left;
+       padding: 50px;
+       margin: 10px;
+}
+	  
+div.date {
+	float: right;
+	padding: 50px;
+	margin: 10px;
+}
+		
+div#date {
+    text-align: left;
+    float: left;
+    margin-left: 5px;
+}
+   
+div#nummess {
+    text-align: right;
+    margin-right
+}
+
+div#post {
+      text-align: justify;
+      text-indent: 15px;
+      padding: 10px;
+}
+	  
+table#t1 {
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 1%;               
+     }
+	 
+table#t2 {
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 1%;               
+     }
+
+ table#topic_table{
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 1%;
+}
+
+ table#post_table{
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 1%;
+}
+	 
+	 /* added 05.12.2010 
+	  */
+    #login_form {
+    	padding: 3% 2% 3% 2%;
+		margin: 3% 1% 3% 1%;
+    }
+	
+	input#username {
+		margin: 1% 1% 1% 0%;
+	}
+	
+	input#password {
+		margin: 1% 0% 1% 1%;
+	}
+	
+	div#login_text{
+		margin-top: 2%;
+		text-align: left;
+	}
+	
+	div#login, div#passwd, div#mail {
+		padding: 3% 2% 3% 2%;
+		margin: 3% 1% 3% 1%;
+	}	
+	
+	div#submit {
+		margin: 3% 1% 3% 1%;
+	}
+	/* profile */
+	table#profile_menu {
+		width: 100%;
+		height: 80%;
+/*		margin: 0 2% 0 2%;*/
+/*		float: left;*/
+	}
+	
+	td#menu_elem {
+		padding-left: 1%;
+	}
+	
+	table#profile_main {
+	/*	width: 79%; */
+		width: 100%;
+		height: 50%;
+
+/*		margin: 0% 1% 0 2%;*/
+	}
+	
+	#log_status {
+		float:left;
+		margin-right: 30%;
+    /*    border: 1px solid black;  */
+	}
+	
+	#log_links {
+    /*border: 1px solid black;*/
+    /*     padding: 1px;  */
+            margin-left: 40%;
+            align: right;
+	}
+  
+        #login_status_tr {
+            padding: 1px;
+        }
+	
+	.inform_mess{
+            position:relative;
+            width:94%;
+            margin:1% 1% 1% 1%;
+            padding: 1% 2% 1% 2%;
+            text-align: justify;
+	}
+	
+	tr#shapka_title {
+            margin: 2% 1% 2% 1%;
+	}
+
+	#post_text {
+/*            height: auto !important;*/
+            margin: 1% 1% 5% 1%;
+/*		padding-top: 50%;*/
+/*		height: 100%;*/
+/*             min-height: 100%;*/
+/*             max-height: 100%;*/
+/*             border: 1px solid #ff0000;*/
+	}
+
+       div#signature_text {
+	     margin: 0% 1% 1% 1%;
+            position: relative;
+            margin-bottom: 4%;
+	}	
+
+	#post_links{
+            padding: 0px;
+            margin: 0% 0px 5px 10px;
+            text-align: right;
+/*            border: 1px solid #00ff00;*/
+            position: absolute;
+            bottom: 2%;
+            right: 2%;
+	}
+	
+        td#message{
+            position: relative;
+        }
+
+	#post_userbar {
+		padding: 1px 10px 1px 10px;
+	}
+	
+	#redirect_div {
+		width: 30%;
+		min-width: 30%;
+		height: 25%;
+		min-width: 10%;
+	    margin: auto;
+		text-align: center;
+		padding: 20px 10px 20px 10px;
+	}
+	
+	#t1.redirect {
+		position: relative;
+		margin: auto;
+		top: 100px;
+	}
+	
+	hr#signature_line {
+		height: 1px;
+		text-align: left;
+		width: 40%;
+		margin-left: 1%;
+		margin-bottom: 0%;
+	}
+
+	div.fieldWithErrors{
+		display: inline;
+	}
+	
+	.post_attach{
+		width:94%;
+		margin:1% 1% 1% 1%;
+		padding: 1% 2% 1% 2%;
+		text-align: justify;
+                 position: relative;
+                 margin-bottom: 3%;
+	}
+	
+	.post_attach_img{
+		width:94%;
+		margin:1% 1% 1% 1%;
+		/*padding: 1% 2% 1% 2%;*/
+		text-align: justify;
+                position: relative;
+                
+	}
+	
+	.post_attach_img  img{
+		border: 1px solid blue;
+                margin-bottom: 2%;
+	}
+
+	.post_attach_img_info {
+        width:94%;
+		margin:1% 1% 1% 1%;
+	/*	padding: 1% 2% 1% 2%; */
+		text-align: justify;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+        font-size: 9pt;
+        margin-bottom: 2%;
+        position: relative;
+    }
+	
+	.report_mess > .inform_mess{
+		float:left;
+		display: block;
+	}
+	
+	.report_number{
+		float:right;
+		margin: 3%;
+		display: inline-block;
+	}
+	
+	.report_entity{
+		width: 100%;	
+	}
+	
+	.reports_left_col{
+		text-align: right;
+		margin: 1%;
+		padding: 1%;
+	}
+	
+	.reports_right_col{
+		text-align: left;
+		padding-left: 1%;
+		margin-left: 1%;
+	}
+	
+	#boardname_in_footer{
+		width: 96%;
+		margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 3%;
+		text-align: center;     
+	}
+	
+	#profile_administration_subpart{
+		border: 3px solid black;
+		padding: 1%;
+		text-align: left;
+		margin: 0% 20% 0% 2%;
+	}	
+	
+	#maintenance_table{
+		width: 60%;
+		height: 40%;
+		margin-top: 30%;
+		vertical-align: text-bottom;
+	}
+	
+	#notice_line{
+		height: 2px;
+	}
+	
+	.closed_topic {
+		color: #606060;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 9pt;
+	}
+	
+	/* TODO: make all */	
+	code {
+		border-style: solid;
+		border-width: 1px;
+		margin: 0.75em 1em;
+		padding: 1em 0.75em;
+		vertical-align: text-top;
+		overflow: scroll;
+		display: block;
+		width: 80%;
+	}
+
+	tr#user_profile_field{
+		padding: 30px 30px 30px 30px
+    }
+		
+	div#custom_text{
+		border: 1px solid white;
+		margin-left: 30px;
+		padding-right: 50 px;
+		
+		margin-right: 100 px;
+	/*	float: left; */
+		display: inline;
+		clear: both;
+	}
+	
+	div#custom_c{
+	/*	border: 1px solid white; */
+		/*display: inline; */
+		float: right;
+		margin-right: 1px;
+		width: 50%;		
+	}
+	
+	div#custom_param{
+		/*border: 1px solid red;*/
+		padding-right: 10px;
+	}
+	
+	span {
+		/*padding-right: 30px;*/
+		width: 20%;
+		/*border: 1px solid #00ff00;*/
+		/*margin-right: 30%;*/
+		margin-top: 50%;
+		margin-bottom: 5%;
+		text-align: right;
+		/*font-weight: bold;*/
+		color: #00BFFF;
+	}
+	
+	span#info{
+		width: 40%;
+		text-align: right;
+	}
+	
+	small{
+		text-align: center;
+		margin: 50px 0px 5px 0px;
+	}
+	
+	/*combobox*/
+	#default_style{
+		width: 150px;
+	}
+	
+	/*admin/features page*/
+	#custom_share{
+		float: right;
+		width: 78%;
+	}
+
+	#custom_themes{
+		float: right;
+		width: 70%;
+	}
+	
+	#custom_msg{
+		float: right;
+		width: 65%;
+	}
+	
+	#custom_notice{
+		float: right;
+		width: 70%;
+	}
+	
+	#custom_reg{
+		float: right;
+		width: 74%;
+	}
+	
+	#custom_attach{
+		float: right;
+		width: 68%;
+	}
+	
+	#custom_search{
+		float: right;
+		width: 75%;
+	}
+	
+	#custom_egrp{
+		float: right;
+		width: 70%;
+	}
+	
+	#custom_egrp_attach{
+		float: right;
+		width: 60%;
+	}
+	
+	#custom_bans{
+		float: right;
+		width: 60%;
+	}
+	
+	#check_box_txt{
+		float: right;
+		width: 95%;
+/*		color: #00BFFF;	*/
+	}
+
+        #custom_subpartition{
+		float: right;
+		width: 80%;
+	}
+
+        #custom_edit_subpartition{
+		float: right;
+		width: 75%;
+	}
+	
+	#answer_form{
+		margin-left: 5%;
+        margin-right: 5%;
+        margin-bottom: 1%;
+	}
+
+	#ttl {
+		font-weight: bold;
+		color: #00BFFF;
+		float: left;
+		height: 50%;
+		top: 50%;
+		border: 1px solid white;
+		margin-right: 1%;
+	}
+	
+	#cens1{
+		font-weight: bold;
+		color: #00BFFF;
+		float: left;
+		vertical-align: bottom;
+		overflow: hidden;
+	}
+	
+	#cens2{
+		font-weight: bold;
+		color: #00BFFF;	
+		float: left;
+		vertical-align: bottom;
+		overflow: hidden;
+	}
+	
+	#cens_btn{
+		font-weight: bold;
+		color: #00BFFF;	
+		margin-top: 2%;
+		margin-bottom: 2%;
+		vertical-align: middle;
+		overflow: hidden;
+	}
+	
+	#block{
+		vertical-align: bottom;
+		height: 50%;
+		overflow: hidden;
+	}
+
+	#search_keyword{
+		font-weight: bold;
+		color: #00BFFF;
+		float: left;
+		margin-right: 5%;
+	}
+
+	#search_author{
+		font-weight: bold;
+		color: #00BFFF;
+	}
+
+        #search_forum{
+			font-weight: bold;
+			color: #00BFFF;
+		}
+
+        #search_sortby{
+            font-weight: bold;
+			color: #00BFFF;
+			float: left;
+            margin-right: 5%;
+        }
+
+        #search_sortorder{
+        	font-weight: bold;
+			color: #00BFFF;
+			float: left;
+            margin-right: 5%;
+        }
+
+        #search_resulttype{
+        	font-weight: bold;
+		color: #00BFFF;
+            float: left;
+            margin-right: 10%;
+        }
+
+        #search_rules{
+            text-align: left;
+            font-size: small;
+        }
+
+        #search_field{
+			font-weight: normal;
+        }
+
+        /*   user profile     */
+        #custom_profile_tz{
+            float: right;
+			width: 52%;
+        }
+
+        #custom_profile_dst{
+            float: right;
+            width: 52%;
+        }
+
+        #custom_profile_style{
+            float: right;
+            width: 58%;
+        }
+
+        #custom_profile_posts{
+            float: right;
+            width: 85%;
+        }
+
+        #custom_profile_administration{
+            float: right;
+            width: 60%;
+        }
+
+        #custom_profile{
+			font-weight: bold;
+			color: #00BFFF;
+		}
+
+        /*   user search     */
+        #user_search_field{
+			font-weight: bold;
+			color: #00BFFF;
+			float: left;
+            margin-right: 5%;
+        }
+		
+		#prune_topics_c{
+            float: right;
+            width: 70%;
+		}
+		
+		#attach_search_c{
+            float: right;
+            width: 70%;			
+		}
+		
+		span#table_title{
+			font-weight: bold;
+			color: #000000;
+			text-align: left;
+		}
+		
+		#attachment_field{
+				width: 50%
+		}
+		
+		#change_pass_field{			
+            font-weight: normal;	
+		}
+		
+		#custom_change_pass{
+            float: right;
+            width: 80%;
+        }
+		
+		#answer_form_field{
+			margin-right: 5%;
+		}
+		
+		#msg_text_area{
+			margin-right: 5%;	
+		}
+		
+		#answer_message{
+			margin-right: 5%;
+		}

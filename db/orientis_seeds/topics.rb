@@ -1,0 +1,11 @@
+Topic.create(:subpartition_id => Subpartition.first.id,
+  :poster => User.first.name,
+  :title => 'Test topic',
+  :first_post_id => 1,
+  :last_post => Time.now.utc,
+  :last_post_id => 1,
+  :last_poster => User.first.name,
+  :num_views => 1,
+  :num_replies => 0,
+  :poster_id => User.first.id,
+  :moved_to => 0)

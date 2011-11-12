@@ -1,0 +1,93 @@
+-if @group_permissions.g_search_users
+  %table#t1{:width => '90%'}
+    %tr#shapka
+      %th{:width => '100%', :height => '10%', :align => 'left'}
+        %span#table_title
+          =t(:search)
+      %tr
+        %th#title{:width => '100%', :height => '30%', :align => 'left'}
+          -form_tag 'users_list' do
+            -field_set_tag t(:form_title), {:id => 'search_field'} do
+              #user_search_field
+                =label_tag t(:username)
+                %br
+                -if params[:users] && params[:users][:name]
+                  =text_field_tag 'users[name]',params[:users][:name],:size => 30, :maxlength => 25
+                -else
+                  =text_field_tag 'users[name]',nil,:size => 30, :maxlength => 25
+              #user_search_field
+                =label_tag t(:groups)
+                %br
+                -if params[:users] && params[:users][:group]
+                  =select_tag 'users[group]', options_for_select((Group.all - [Group.get_guest]).map{|group| [group.name, group.id]}.unshift([t(:all_users), 0]), params[:users][:group].to_i)
+                -else
+                  =select_tag 'users[group]', options_for_select((Group.all - [Group.get_guest]).map{|group| [group.name, group.id]}.unshift([t(:all_users), 0]), 0)
+              #user_search_field
+                =label_tag t(:sorting_by_label)
+                %br
+                -if params[:users] && params[:users][:sorting]
+                  -if Configs.get_config('allow_postcount').to_bool
+                    =select_tag 'users[sorting]', options_for_select([[t(:username_search_fld),'name'],[t(:reg_time),'regdatetime'],[t(:msg_count),'numposts']], params[:users][:sorting])
+                  -else
+                    =select_tag 'users[sorting]', options_for_select([[t(:username_search_fld),'name'],[t(:reg_time),'regdatetime']], params[:users][:sorting] )
+                -else
+                  -if Configs.get_config('allow_postcount').to_bool
+                    =select_tag 'users[sorting]', options_for_select([[t(:username_search_fld),'name'],[t(:reg_time),'regdatetime'],[t(:msg_count),'numposts']], 'name')
+                  -else
+                    =select_tag 'users[sorting]', options_for_select([[t(:username_search_fld),'name'],[t(:reg_time),'regdatetime']], 'name')
+              #user_search_field
+                =label_tag t(:order_by_label)
+                %br
+                -if params[:users] && params[:users][:order]
+                  =select_tag 'users[order]', options_for_select([[t(:ascend),'asc'], [t(:descend), 'desc']], params[:users][:order])
+                -else
+                  =select_tag 'users[order]', options_for_select([[t(:ascend),'asc'], [t(:descend), 'desc']], 'asc')
+            =submit_tag t(:send_btn)
+          
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left', :colspan => '4'}      
+      %span#table_title
+        =t(:users_list)
+  %tr
+    -if ! @users_list.empty?
+      %td#title{:width => '40%', :height => '30%', :align => 'left'}
+        %span
+          =t(:username)
+      %td#title{:width => '30%', :height => '30%', :align => 'left'}
+        %span
+          =t(:status)
+      -if Configs.get_config('allow_postcount').to_bool  
+        %td#title{:width => '10%', :height => '30%', :align => 'left'}
+          %span
+            =t(:messages)
+      %td#title{:width => '20%', :height => '30%', :align => 'left'}
+        %span
+          =t(:reg_at)
+      -for user in @users_list
+        %tr
+          %td#title
+            -if @usr && @usr.admin?
+              =link_to h(user.name), :controller => 'profile', :action => 'main', :id => user.id
+            -elsif @usr && @usr == user
+              =link_to h(user.name), :controller => 'profile', :action => 'main'
+            -elsif @usr && @usr.allow_moderation?
+              -if user.is_moderator? || user.admin?
+                =link_to h(user.name), :action => 'profile', :id => user.id
+              -else
+                =link_to h(user.name), :controller => 'profile', :action => 'main', :id => user.id
+            -else
+              =link_to h(user.name), :action => 'profile', :id => user.id
+          %td#title
+            =h(user.group.name)
+          -if Configs.get_config('allow_postcount').to_bool  
+            %td#title
+              =user.numposts
+          %td#title
+            -if @usr  
+              =@usr.timedate_convert(user.regdatetime)
+            -else
+              =universal_timedate_convert(user.regdatetime)
+    -else
+      %td
+        =t(:nothing_found)

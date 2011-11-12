@@ -1,0 +1,139 @@
+-form_tag "/admin/setup" do
+  -field_set_tag t(:personalize_your_rbb) do
+    #custom_param
+      %span
+        =label_tag t(:board_title)      
+      #custom_c
+        =text_field_tag "board_title", @all_config_records.find{|record| record.name == "board_title"}.value, :size => 50, :maxlength => 50
+      %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:board_desc)
+      #custom_c
+        =text_field_tag "board_desc", @all_config_records.find{|record| record.name == "board_desc"}.value, :size => 50, :maxlength => 50
+    %br
+    #custom_param
+      %span
+        =label_tag t(:default_style)
+      #custom_c
+        =select_tag 'default_style', options_for_select(@board_styles.map{|style| [style, style]}, @all_config_records.find{|record| record.name == "default_style"}.value)
+    %br
+    %br 
+    
+  -field_set_tag t(:configure_rbb) do
+    #custom_param
+      %span
+        =label_tag t(:default_lang)
+      #custom_c
+        =select_tag "default_lang", options_for_select(@board_langs.map{|lang| [lang, lang]}, @all_config_records.find{|record| record.name == "default_lang"}.value)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:default_tz)
+      #custom_c
+        =#time_zone_select nil,'default_timezone',nil, :default => @all_config_records.find{|record| record.name == "default_timezone"}.value
+        =localized_time_zone_select 'users', 'timezone', @all_config_records.find{|record| record.name == "default_timezone"}.value
+    %br
+    #custom_param
+      %span
+        =label_tag t(:adjust_dst)
+      #custom_c
+        =check_box_tag "dst",1,@all_config_records.find{|record| record.name == "dst"}.value.to_bool    
+        %small
+          =t(:setup_for_dst)
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:time_format)
+      #custom_c
+        =text_field_tag "default_timeformat", @all_config_records.find{|record| record.name == "default_timeformat"}.value, :size=>20, :maxlength=>20
+      %h5
+        =t(:curr_time_format)
+        =Time.now.strftime(@all_config_records.find{|record| record.name == "default_timeformat"}.value)
+        =t(:right_bracket)
+        =t(:for_more_info_see)
+        =link_to t(:here), 'http://www.ruby-doc.org/docs/ProgrammingRuby/html/ref_c_time.html#Time.strftime'
+    %br
+    #custom_param
+      %span
+        =label_tag t(:date_format)
+      #custom_c
+        =text_field_tag "default_dateformat",@all_config_records.find{|record| record.name == "default_dateformat"}.value,:size=>20,:maxlength=>20
+      %h5
+        =t(:curr_date_format)
+        =Time.now.strftime(@all_config_records.find{|record| record.name == "default_dateformat"}.value)
+        =t(:right_bracket)
+        =t(:for_more_info_see)
+        =link_to t(:here), 'http://www.ruby-doc.org/docs/ProgrammingRuby/html/ref_c_time.html#Time.strftime'
+    %br
+    %br
+    
+  -field_set_tag t(:settings_timeout_and_redirect_delay) do
+    .formError
+      =error_message_on 'config', 'visit_timeout', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:visit_timeout)
+      #custom_c
+        =text_field_tag "visit_timeout",@all_config_records.find{|record| record.name == "visit_timeout"}.value,:size=>5,:maxlength=>5
+    %br
+    .formError
+      =error_message_on 'config', 'online_timeout', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:online_timeout)
+      #custom_c
+        =text_field_tag "online_timeout",@all_config_records.find{|record| record.name == "online_timeout"}.value,:size=>5,:maxlength=>5
+    %br
+    .formError
+      =error_message_on 'config', 'redirect_timeout', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:redirect_timeout)
+      #custom_c
+        =text_field_tag "redirect_timeout",@all_config_records.find{|record| record.name == "redirect_timeout"}.value,:size=>5,:maxlength=>5
+    %br
+    %br
+  -field_set_tag t(:default_paginations) do
+    .formError
+      =error_message_on 'config', 'topperpage', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:top_per_page)
+      #custom_c
+        =text_field_tag "topperpage", @all_config_records.find{|record| record.name == "topperpage"}.value, :size=>3,:maxlength=>3
+    %br
+    .formError
+      =error_message_on 'config', 'postsperpage', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:pos_per_page)
+      #custom_c
+        =text_field_tag "postsperpage", @all_config_records.find{|record| record.name == "postsperpage"}.value, :size=>3,:maxlength=>3
+    %br
+    .formError
+      =error_message_on 'config', 'topreview', :css_class => 'inform_mess'  
+    #custom_param
+      %span
+        =label_tag t(:top_review)
+      #custom_c
+        =text_field_tag "topreview", @all_config_records.find{|record| record.name == "topreview"}.value, :size=>3,:maxlength=>3
+    %br
+    %br
+  =submit_tag t(:save)
+  :javascript
+    //Next js commands execute after onload event immediately
+    for(i = 0;i<b.options.length;++i)
+    {
+      if(b.options[i].value == "#{@all_config_records.find{|record| record.name == "default_timezone"}.value}")
+      {
+        b.selectedIndex = i;
+      }
+    }
+    
+    
+    
+    
+    

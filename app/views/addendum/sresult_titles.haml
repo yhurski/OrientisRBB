@@ -1,0 +1,79 @@
+%table{:width => "100%", :border => "0"}
+  %tr
+    %td{:width => "20%"}
+      -if @subpartitions.nil?
+        = will_paginate @topics, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+      -else
+        = will_paginate @subpartitions, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+		
+%table{:width => "100%"}
+  %tr#shapka
+    %th{:width => "30%"}
+      =t(:topics)
+    %th{:width => "25%"}
+      =t(:forum)
+    %th{:width => "5%"}
+      =t(:posts)
+    %th
+      =t(:last_post)
+  -if @subpartitions.nil?
+    -for topic in @topics
+      %tr
+        %td#title{:width => "30%"}
+          -if @is_post
+            = link_to h(topic.topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.topic.id }
+            %br
+            =t(:by)
+            = topic.topic.poster
+          -else
+            = link_to topic.title, { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+            %br
+            =t(:by)
+            = topic.poster
+            %br
+            =t(:create)
+        %td#views{:align => "center", :width => "10%"}
+          -if @is_post
+            = (topic.topic.subpartition.partition.title + "." + topic.topic.subpartition.title).upcase
+          -else
+            = (topic.subpartition.partition.title + "." + topic.subpartition.partition.title).upcase
+        %td#last_date_mess{:align => "center", :width => "20%"}
+          -if @is_post
+            = topic.topic.num_replies
+          -else
+            = topic.num_replies
+        %td#last_user{:width => "20%", :align => "center"}
+          -if @is_post
+            =link_to topic.topic.last_post.to_s, {:controlleer => 'forum', :action => 'view_posts', :id => topic.id}
+            %br
+            = t(:by) + topic.topic.last_poster
+          -else
+            =link_to topic.last_post.to_s, {:controlleer => 'forum', :action => 'view_posts', :id => topic.id}
+            %br
+            = t(:by) + topic.last_poster
+  -else
+    -for subpartition in @subpartitions
+      -for topic in subpartition.topic.find(:all, :conditions => @filter_by_parameters)
+        %tr
+          %td#title{:width => "30%"}
+            =link_to topic.title, {:controller => 'forum', :action => 'view_posts', :id => topic.id}
+            %br
+            =t(:created_by)
+            =topic.poster
+          %td#views{:align => "center", :width => "10%"}
+            = (topic.subpartition.partition.title + "." + topic.subpartition.title).upcase
+          %td#last_date_mess{:align => "center", :width => "20%"}
+            =topic.num_replies
+          %td#last_user{:width => "20%", :align => "center"}
+            =link_to topic.last_post.to_s, {:controller => 'forum', :action => 'view_posts', :id => topic.id}
+            %br
+            =t(:by) + topic.last_poster
+%hr
+
+%table{:width => "100%", :border => "0"}
+  %tr
+    %td{:width => "20%"}
+      -if @subpartitions.nil?
+        = will_paginate @topics, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+      -else
+        = will_paginate @subpartitions, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)

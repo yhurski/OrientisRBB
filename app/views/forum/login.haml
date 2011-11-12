@@ -1,0 +1,27 @@
+%table#t1{:width => "90%"}
+  %tr#shapka
+    %th{:width => "100%", :height => "10%", :align => "left"}
+      =t(:login_title)
+  %tr
+    %th#title{:width => "100%", :height => "30%", :align => "left"}
+      -unless @login_error.nil?
+        .inform_mess{:align => "center"}
+          =@login_error
+      -form_tag '/forum/login?act=enter', :id => 'login_form'  do
+        =label_tag t(:username_fld)
+        =label_tag t(:password_fld)
+        %br
+        =text_field_tag 'user[username]', nil, :size => '25', :maxlength => '25'
+        =password_field_tag 'user[password]', nil, :size => '25', :maxlength => '25'
+        %br
+        =label_tag t(:remember_me)
+        =check_box_tag 'user[save_session]', true, false
+        =t(:auto_login)
+        %br
+        =submit_tag t(:enter_btn)
+        .login_text
+          =t(:forg_passwd)
+          %br
+          =link_to t(:not_register), :action => 'regist'
+          &nbsp;
+          =link_to t(:forgot_passwd), :action => 'remind'

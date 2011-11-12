@@ -1,0 +1,15 @@
+#log_status
+  %ul
+    %li
+      =t :logname
+      %strong
+        =h login_status.name
+    %li
+      =t :logtime
+      =login_status.timedate_convert(login_status.last_visit)
+#log_links
+  %ul
+    %li
+      =link_to t(:new_posts), :action => 'show_new_messages', :controller => 'forum'
+    %li
+      = link_to t(:check_posts), :action => 'check_new_messages', :controller => 'forum'

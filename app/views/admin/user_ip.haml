@@ -1,0 +1,27 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =#will_paginate @searched_usrs
+%table{:width => '100%'}
+  -if @user_ip_posts
+    %tr#shapka
+      %th{:width => '30%'}
+        =t(:ip)
+      %th{:width => '20%'}
+        =t(:last)
+      %th{:width => '5%'}
+        =t(:found)
+      %th{:width => '15%'}
+        =t(:act)
+    -for ip_post in @user_ip_posts do
+      %tr
+        %td#title{:width => '30%'} 
+          =link_to h(ip_post.poster_ip), {:action => 'show_host', :ip => ip_post.poster_ip}
+        %td#views{:align => 'center', :width => '10%'}
+          =@usr.timedate_convert(Time.zone.parse(ip_post.max_posted))
+        %td#last_date_mess{:align => 'center', :width => '20%'}
+          =ip_post.count_posted_ip
+        %td#last_user{:width => '20%', :align => 'center'}
+          =link_to t(:find_more), {:action => 'user_ip', :ip => ip_post.poster_ip, :id => nil}
+  -else
+    =t(:no_results)

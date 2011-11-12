@@ -1,0 +1,35 @@
+-form_for :user, @usr, :id => params[:id], :html => {:multipart => true} do |f|
+  -field_set_tag t(:current_ava) do
+    .inform_mess
+      %ul
+        %li
+          =t(:to_display_upload)
+        %li
+          =t(:allowed_types)
+        %li
+          =t(:maximum_size)
+          ="#{Configs.get_config('maxwidth_avatars')}x#{Configs.get_config('maxheight_avatars')}"
+          =t(:pixels_and)
+          =Configs.get_config('maxsize_avatars')
+          =t(:bytes)
+    .formError
+      =error_message_on 'usr', "avatar_file_size", :css_class => 'inform_mess'
+      %br
+    .formError
+      =error_message_on 'usr', "avatar", :css_class => 'inform_mess'    
+      %br
+    -if @ext_error
+      .formError
+        .inform_mess
+          =@ext_error
+    %span
+      =f.label t(:current_avatar)
+    -if @usr.avatar_file_name.nil?
+      =t(:no_avatar)
+    -else
+      =image_tag @usr.avatar.url(:thumb)
+      %br
+      =link_to t(:remove_avatar), :action => 'rem_avatar', :id => params[:id]
+    %br
+    =f.file_field :avatar
+  =f.submit t(:upload)

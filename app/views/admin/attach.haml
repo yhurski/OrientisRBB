@@ -1,0 +1,65 @@
+-form_tag 'attach?act=save', :method => 'post' do
+    -field_set_tag t(:main_options) do
+        #custom_param
+            %span
+                =label_tag t(:disable_attach)
+            #custom_attach
+                =check_box_tag 'attach_disable_attach', 1, @attach['attach_disable_attach'].value.to_bool
+        %br
+        #custom_param
+            %span
+                =label_tag t(:allow_orphans)
+            #custom_attach
+                =check_box_tag 'attach_allow_orphans', 1, @attach['attach_allow_orphans'].value.to_bool
+        %br
+        #custom_param
+            %span
+                =label_tag t(:always_deny)
+            #custom_attach
+                =text_field_tag 'attach_always_deny', @attach['attach_always_deny'].value
+        %br 
+        #custom_param
+            %span
+                =label_tag t(:disp_img)
+            #custom_attach
+                =check_box_tag 'attach_disp_small', 1, @attach['attach_disp_small'].value.to_bool
+        %br
+        #custom_param
+            %span
+                =label_tag t(:max_h)
+            #custom_attach
+                =text_field_tag 'attach_small_height', @attach['attach_small_height'].value
+        %br 
+        #custom_param
+            %span
+                =label_tag t(:max_w)
+            #custom_attach
+                =text_field_tag 'attach_small_weight', @attach['attach_small_weight'].value
+        %br 
+        %br
+    -field_set_tag t(:manage_icons) do
+        .inform_mess{:align => 'center'}
+            =t(:icons_stored)
+            =File.join(RAILS_ROOT, @rpath)
+            =t(:to_add_or_change)
+        -unless @missing_icons.blank?
+            .inform_mess{:align => 'center'}
+                =t(:missing)
+                %br
+                -@missing_icons.each do |icon|
+                    =File.join(RAILS_ROOT, @rpath, icon)
+                    %br
+        -unless @save_attach_conf_message.nil?
+            .inform_mess{:align => 'center'}
+                =@save_attach_conf_message                                                                                                                     
+        =label_tag t(:use_icons)
+        =check_box_tag 'attach_use_icon', 1, Configs.get_config('attach_use_icon').to_bool
+        %br 
+        =render :partial => 'icon_textfield', :collection => @icons
+        %br 
+        =text_field_tag 'add_icon_type'
+        =text_field_tag 'add_icon_file'
+        %br
+    =submit_tag t(:save)
+      
+       

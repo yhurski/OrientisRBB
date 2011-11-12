@@ -1,0 +1,74 @@
+%table#t1{:width => '96%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:regist)
+  %tr
+    %th#title{:width => '100%', :height => '30%', :align => 'left'}
+      -form_for :users, @user, :url => {:action => 'regist', :agree => 'Agree', :agree_rules => 1} do |f|
+        .formError
+          =error_message_on 'user', 'registration_ip', :css_class => 'inform_mess'
+        -field_set_tag t(:form_title) do
+          .formError
+            =error_message_on 'user', 'name', :css_class => 'inform_mess'
+          =f.text_field :name
+          %br
+          %h5
+            =t(:allowed_chars)
+        %br
+        -if Configs.get_config('verify_registration').to_bool
+          -field_set_tag t(:email_field) do
+            .formError
+              =error_message_on 'user', 'email', :css_class => 'inform_mess'
+            =f.text_field :email
+            %br
+            =f.text_field :email_confirmation
+        -else
+          -field_set_tag t(:password_field) do 
+            .formError
+              =error_message_on 'user', 'passwd', :css_class => 'inform_mess'
+            = f.password_field :passwd
+            %br
+            =f.password_field :passwd_confirmation
+          %br
+          -field_set_tag t(:email) do
+            .formError
+              =error_message_on 'user', 'email', :prepend_text => 'Email field ', :css_class => 'inform_mess'
+            =f.text_field :email
+        %br
+        -field_set_tag t(:captcha_field) do
+          .formError
+            =error_message_on 'user', 'captcha_solution', :css_class => 'inform_mess'
+          = f.label :captcha
+          %br
+          =f.captcha_challenge
+          %br
+          =f.captcha_field :size => 10
+          %br
+          =f.regenerate_captcha_challenge_link :text => t(:regen_captcha)
+        %br
+        -field_set_tag t(:regional_field) do
+          .formError
+            =error_message_on 'user', 'dst',:css_class => 'inform_mess'
+          =label_tag t(:timezone_choice)
+          %br
+          =time_zone_select 'users', 'timezone', nil, :default => Configs.get_config('default_timezone')
+          %br
+          =check_box_tag 'users[dst]', 1, Configs.get_config('dst').to_bool
+          =label_tag t(:dst_check)
+        %br
+        -field_set_tag t(:private_field) do
+          .formError
+            =error_message_on 'user', 'howshowemail', :css_class => 'inform_mess'
+          =label_tag t(:how_show_email)
+          %br
+          -case Configs.get_config("email_default").to_i
+          -when 0  
+            =render :partial => 'admin/display_email_radiobuttons', :locals => {:show => true, :hide_but_permit_send => false, :hide => false}
+          -when 1
+            =render :partial => 'admin/display_email_radiobuttons', :locals => {:show => false, :hide_but_permit_send => true, :hide => false}  
+          -when 2
+            =render :partial => 'admin/display_email_radiobuttons', :locals => {:show => false, :hide_but_permit_send => false, :hide => true}
+          %br
+        =submit_tag t(:regist)
+        
+          

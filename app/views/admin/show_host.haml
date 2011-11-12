@@ -1,0 +1,14 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      -if @message
+        =@message  
+      -else
+	=t(:ip_addr)
+        =h params[:ip]
+        %br
+	=t(:host_name)
+        =h @hostname
+        %br
+        %br
+        =link_to t(:show_more), {:action => 'show_ip'}

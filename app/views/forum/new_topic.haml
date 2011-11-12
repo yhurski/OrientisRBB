@@ -1,0 +1,23 @@
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:width => "100%", :height => '10%', :align => 'left'}
+      =t(:create_new_topic)
+  %tr        
+    %th{:width => '100%', :height => '30%', :align => 'left'}    
+      -content_for :new_topic_title_field do
+        -if @topic && ! @topic.errors.blank?
+          -@topic.errors.each do |col, msg|
+            .formError
+              .inform_mess
+                =msg
+          =#error_message_on 'topic', 'title', :prepend_text => 'Title field ', :css_class => 'inform_mess'
+        =label_tag t(:topic_title)
+        %br
+        -if @topic  
+          =text_field_tag 'topic_title', @topic.title, :size => 50, :maxlength => 255
+        -else
+          =text_field_tag 'topic_title', nil, :size => 50, :maxlength => 255  
+        %br
+        %br    
+      =render :partial => "answer_form", :locals => {:text_area_size => '140x30', :show_attach_field => true, :curr_action => 'new_topic'}
+            

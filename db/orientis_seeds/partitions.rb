@@ -1,0 +1,1 @@
+Partition.create(:title => 'Test forum', :part_pos => 1)

@@ -1,0 +1,208 @@
+-form_tag "/moderation/index/#{@topics.first.subpartition.id}", :id => 'report_form' do
+  %table#topic_table{:width => '90%', :align => 'center'}
+    %tr#shapka
+      %th{:width => '1%'}
+      %th{:width => '30%'}
+        =t :topics
+      %th{:width => '10%'}  
+        =t :replies
+      -if Configs.get_config('show_views').to_bool  
+        %th{:width => '20%'}  
+          =t :views
+      %th
+        =t :last_post
+      -if params[:action] == 'moderate'
+        %th{:width => '1%'}
+          %nbsp;
+    -for topic in @topics do
+      %tr
+        %td{:align => 'center', :valign => 'top'}
+          -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+            =image_tag(@forum_style + '/new_img_small.gif')
+        %td#title{:width => '30%'}
+          -if topic.closed
+            .closed_topic
+              -if topic.sticky
+                %i
+                  %b
+                    -if topic.is_moved params[:id].to_i
+                      %i
+                        =t :closed
+                        =t :comma_with_space
+                        =t :sticky
+                        =t :comma_with_space
+                        =t :moved
+                        =t :colon
+                      -if topic.user_topic?(@usr)
+                        =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      =t :closed
+                      =t :comma_with_space
+                      =t :sticky
+                      =t :colon
+                      -if topic.user_topic?(@usr)
+                        -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                          %b
+                            =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                        -else
+                          =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                          %b
+                            =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                        -else
+                          =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+              -else
+                -if topic.is_moved params[:id].to_i
+                  %i
+                    =t :closed
+                    =t :comma_with_space
+                    =t :moved
+                    =t :colon
+                  -if topic.user_topic?(@usr)
+                    -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                      %b
+                        =link_to h(s '# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      =link_to h(s '# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                      %b
+                        =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                -else
+                  =t :closed
+                  -if topic.user_topic?(@usr)
+                    -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                      %b
+                        =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                      %b
+                        =link_to  h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+          -else
+            -if topic.sticky
+              %i
+                %b
+                  -if topic.is_moved params[:id].to_i
+                    %i
+                      =t :sticky
+                      =t :comma_with_space
+                      =t :moved
+                      =t :colon
+                    -if topic.user_topic?(@usr)
+                      -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                        %b
+                          =link_to h(s '# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        =link_to h(s '# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                        %b
+                          =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    =t :sticky
+                    -if topic.user_topic?(@usr)
+                      -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                        %b
+                          =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                    -else
+                      -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                        %b
+                          =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                      -else
+                        =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+            -else
+              -if topic.is_moved params[:id].to_i
+                %i
+                  =t :moved
+                  =t :colon
+                -if topic.user_topic?(@usr)
+                  -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                    %b
+                      =link_to h(s '# ' + topic.title), {:controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    =link_to h(s '# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                -else
+                  -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                    %b
+                      =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    =link_to h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+              -else
+                -if topic.user_topic?(@usr)
+                  -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                    %b
+                      =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    =link_to h('# ' + topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                -else
+                  -if @usr && topic.last_post && @usr.last_visit && (topic.last_post > @usr.last_visit)
+                    %b
+                      =link_to  h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+                  -else
+                    =link_to  h(topic.title), { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+            %br
+          =t :created_by
+          =h topic.poster
+        %td#views{:width => '10%', :align => 'center'}
+          =topic.num_replies
+        -if Configs.get_config('show_views').to_bool  
+          %td#last_date_mess{:width => '20%', :align => 'center'}
+            =topic.num_views
+        %td#last_user{:width => '15%', :align => 'center'}  
+          -if @usr
+            =@usr.timedate_convert(topic.last_post)
+          -else
+            =universal_timedate_convert(topic.last_post)
+        -if params[:action] == 'moderate'
+          %td{:width => '2%'}
+            =check_box_tag "selected_topic[#{topic.id}]"
+  -if params[:action] == 'moderate'
+    =render :partial => 'moderate_panel', :locals => {:form_url => '/forum/nowhere'}
+    %br
+    %div{:align => 'right'}
+      =link_to t(:select_all), {:anchor => '#'}, :onclick => 'return turnon_checkboxes(document.getElementById("report_form"));'
+    %div{:align => 'right'}
+      =link_to t(:show_forum), :controller => 'forum', :action => 'view_topics', :id => @topics.first.subpartition.id, :page => params[:page] 
+  -else
+    -if @usr && (@usr.admin? ||  (@usr.is_moderator && @usr.subpartitions.map(&:id).include?(params[:id].to_i)))
+      %div{:align => 'right'}
+        =link_to t(:moderate_forum), :controller => 'moderation', :action => 'moderate', :id => @topics.first.subpartition.id, :page => params[:page]
+    -if Group.find(  Group.get_user_group_id(@usr) ).forum_perms.find_by_subpartition_id(@topics.first.subpartition.id).post_topics
+      %div{:align => 'right'}
+        =link_to t(:post_new_topic), :controller => 'forum', :action => 'new_topic', :id => @topics.first.subpartition.id
+    -else
+      %div{:align => 'right'}
+        =t :new_topic_perm
+          
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      

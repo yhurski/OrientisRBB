@@ -1,0 +1,14 @@
+- form_for :users, @usr, :url => {:action => "private" } do |f|
+ - field_set_tag t(:choice) do
+  =t(:choice_whether)
+  %br
+  =f.radio_button "howshowemail", 0
+  =t(:show_email)
+  %br
+  =f.radio_button "howshowemail", 1  
+  =t(:hide_email_but_send)
+  %br
+  =f.radio_button "howshowemail", 2 
+  =t(:hide_email_and_forbid_send)
+  %br
+ =f.submit t(:save)

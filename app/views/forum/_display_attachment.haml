@@ -1,0 +1,16 @@
+.post_attach
+  -if Configs.get_config('attach_use_icon').to_bool
+    -if Configs.get_icon(File.extname(display_attachment.attach_file_name).downcase)
+      %img{:src => File.join(Configs.get_config('attach_icon_folder'), Configs.get_icon(File.extname(display_attachment.attach_file_name).downcase))}
+  =link_to h(display_attachment.attach_file_name), send_attach_url(:filename => display_attachment.attach_file_name, :attach_id => display_attachment.id)
+  =t(:size) + number_to_human_size(display_attachment.attach_file_size).to_s
+  -if display_attachment.download_counter.to_i == 0
+    =t(:never_downloaded)
+  -else
+    =display_attachment.download_counter.to_s + t(:downloads)
+  -if @usr && ((@group_permissions.attach_allow_delete_own && @usr && display_attachment.user == @usr) || @usr.admin? ||  (@usr.is_moderator && @usr.subpartitions.map(&:id).include?(Topic.find(params[:id]).subpartition.id)))
+    #attach_drop_link{:style => 'align: right;float: right'}
+      =link_to t(:remove), remove_attach_url(:attach_id => display_attachment.id)
+  -#else
+    ~#You do not have permissions to view this content
+        

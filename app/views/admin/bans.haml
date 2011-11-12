@@ -1,0 +1,23 @@
+-field_set_tag t(:ban_username) do
+    .inform_mess{:align => 'center'}
+        =t(:the_next_page)
+    -form_tag "/admin/bans?act=add" do
+        %span
+            =label_tag t(:username_to_ban)
+        =text_field_tag 'banname'      
+        =submit_tag t(:add_ban)
+%br
+-if @ban_list && ! @ban_list.empty?
+    -field_set_tag t(:edit_remove) do
+        -@ban_list.each do |ban|
+            =t :banned_by
+            =link_to h(ban.user.name), :controller => "profile", :action => "profile", :id => ban.ban_creator
+            &nbsp;
+            =t(:username) 
+            %span
+                =h(ban.username)
+            %br
+            =link_to t(:edit_ban), :action => "bans", :id => ban.id, :act => 'edit'
+            =t (:or)
+            =link_to t(:rem_ban), :action => "bans", :id => ban.id, :act => 'drop'
+            %br

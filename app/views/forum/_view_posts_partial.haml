@@ -1,0 +1,276 @@
+-if true
+  %table#t1{:width => '90%', :border => '0'}
+    %tr
+      %td{:width => '20%'}
+        =will_paginate @post, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+      %td
+        =link_to t(:list), :controller => 'forum', :action => 'main'
+        =' >> '
+        =link_to @topic.subpartition.title, :controller => 'forum', :action => 'view_topics', :id => @topic.subpartition.id
+        =' >> '
+        =h @topic.title
+  -@post.count.times do |index|
+    %table#post_table{:width => '90%', :align => 'center', :border => '3'}
+      %tr#post_title
+        %td{:colspan => '2'}
+          %div{:id => "p#{@post[index].id}"}
+            =t(:msg_created)
+            =t(:colon)
+            -if @usr
+              =link_to @usr.timedate_convert(@post[index].posted), :page => params[:page], :anchor => "p#{@post[index].id}"
+            -else
+              =link_to universal_timedate_convert(@post[index].posted), :page => params[:page], :anchor => "p#{@post[index].id}"
+        %td
+          ="№#{((@post.current_page - 1) * @post.per_page + index + 1)}"
+          -if params[:action] == 'posts_moderate'
+            %td{:width => '2%'}
+              =check_box_tag "selected_post[#{@post[index].id}]"
+      %tr
+        %td#post_userbar{:width => '15%', :align => 'center', :valign => 'top'}
+          %h4
+            =link_to_function(h(@post[index].poster), "insert_text('[b]#{@post[index].poster}[/b]\\n', '')")
+            %br
+            -unless @post[index].user.id == User.get_guest.id
+              -#debugger
+              -#if @usr and @post[index].isUserPost(@usr) || @usr.admin? || (@usr.is_moderator? && @usr.group.g_mod_edit_users)
+                =#link_to h(@post[index].user.get_user_status), :controller => 'profile', :action => 'main', :id => @post[index].user.id
+              -#else
+                =#link_to_if @group_permissions.g_view_users, h(@post[index].user.get_user_status), :action => 'profile', :id => @post[index].user.id
+              -if @usr && (@post[index].is_user_post(@usr) || @usr.admin?)
+                =link_to h(@post[index].user.get_user_status), :controller => 'profile', :action => 'main', :id => @post[index].user.id
+              -elsif @usr && @usr.is_moderator
+                -if ! @post[index].user.admin? && ! @post[index].user.is_moderator && @group_permissions.g_view_users
+                  =link_to h(@post[index].user.get_user_status), :controller => 'profile', :action => 'main', :id => @post[index].user.id
+                -else
+                  -if @group_permissions.g_view_users
+                    =link_to h(@post[index].user.get_user_status), :action => 'profile', :id => @post[index].user.id
+                  -else
+                    =h(@post[index].user.get_user_status)
+              -else
+                =link_to_if @group_permissions.g_view_users, h(@post[index].user.get_user_status), :action => 'profile', :id => @post[index].user.id
+              -unless @post[index].user.avatar_file_name.nil?
+                =image_tag @post[index].user.avatar.url :thumb
+              %div{:align => 'left'}
+                %h5
+                  %b
+                    =@post[index].user.get_online_status
+                  -if Configs.get_config('show_userinfo').to_bool
+                    %br
+                    -if @post[index].user.is_location_defined
+                      =t :location
+                      =t :colon
+                      =h @post[index].user.location
+                      %br
+                    =t :registered
+                    =t :colon
+                    -if @usr
+                      =@usr.timedate_convert(@post[index].user.regdatetime)
+                    -else
+                      =universal_timedate_convert(@post[index].user.regdatetime)
+                    %br
+                    =t :post_number
+                    =t :colon
+                    =@post[index].user.numposts
+                    -if @post[index].user.is_website_defined
+                      =t :site
+                      =t :colon
+                      =link_to h(@post[index].user.web), @post[index].user.web
+                  -else
+                    -if Configs.get_config('allow_postcount').to_bool
+                      %br
+                      =t :post_number
+                      =t :colon
+                      =@post[index].user.numposts    
+                -#<img src=<%# image_path("avatars/#{@usr.user}.gif") 
+            -else
+              =h User.get_guest.get_user_status.blank? ?  User.get_guest.name.capitalize : User.get_guest.get_user_status
+              -if @usr
+                %div{:align => 'left'}
+                  %h5
+                    %b
+                      =t :email
+                      =t :colon
+                      =h @post[index].poster_email
+                      %br
+                      =t :ip
+                      =t :colon
+                      =@post[index].poster_ip
+        %td#message{:width => '85%', :valign => 'top'}
+          #post_text
+            -if Configs.get_config('allow_cens').to_bool
+              -if ((@usr && @usr.is_smiles_to_img) || (@usr.nil? && Configs.get_config('show_graphsmiles').to_bool))
+                =replace_smilies_with_icons(  make_bbcodes(  h(  Censor.censoring(@post[index].message)		)		)	)
+                -#debugger
+              -else  
+                =make_bbcodes(		h(		Censor.censoring(@post[index].message)		)		)
+            -else
+              -if (@usr && @usr.is_smiles_to_img) || (@usr.nil? && Configs.get_config('show_graphsmiles').to_bool)
+                =replace_smilies_with_icons(	make_bbcodes(		h(@post[index].message)		) 	)
+              -else  
+                =make_bbcodes(		h(@post[index].message)		)
+            <!-- edited by string -->
+            -if @post[index].edited_by && @post[index].edited_by.to_bool
+              %br
+              %br
+              %i
+                %b
+                  =t(:edit_post)
+                  -if @usr
+                    =@usr.timedate_convert @post[index].edited
+                  -else
+                    =universal_timedate_convert @post[index].edited
+                  =t :by
+                  =h User.find(@post[index].edited_by).name
+          <!-- display attachment files -->
+          -#TODO: add condition that we may download attaches
+          -unless Configs.get_config('attach_disable_attach').to_bool ||  params[:action] == 'posts_moderate'
+            #attach_file
+              -if @group_permissions.attach_allow_download || (@usr && @usr.admin?) || (@usr && @usr.is_moderator && @usr.subpartitions.map(&:id).include?(Topic.find(params[:id]).subpartition.id)) 
+                -if Configs.get_config('attach_disp_small').to_bool
+                  =render :partial => 'display_attachment_img', :collection => @post[index].attach_files
+                  =render :partial => 'display_attachment', :collection => @post[index].attach_files.delete_if{|elem| Configs.is_allowed_img(elem.attach_file_name)}
+                -else
+                  =render :partial => 'display_attachment', :collection => @post[index].attach_files
+              -elsif ! @post[index].attach_files.empty?
+                =render :partial => 'forbid_display_attachment'
+                =#render :partial => 'display_attachment', :collection => @post[index].attach_files
+          <!-- signature show -->
+          -if (@usr && @usr.is_show_signature && ! @post[index].user.signature.blank?) || (@usr.nil? && Configs.get_config('allow_signature').to_bool && ! @post[index].user.signature.blank?)
+            
+            #signature_text
+              %hr#signature_line
+              -if signature_bbcodes_allowed?
+                =post_bbcodes_and_iconize( @post[index].user.signature, signature_bbimg_allowed?, signature_smilestoicon_allowed?	).nl_to_br
+              -else
+                -if signature_bbimg_allowed?
+                  -if signature_smilestoicon_allowed?
+                    =sanitize(	replace_smilies_with_icons(	make_only_bbcimg(	@post[index].user.signature	)	), :tags => %w(img)	).nl_to_br
+                  -else
+                    = sanitize(	make_only_bbcimg(	@post[index].user.signature	), :tags => %w(img)	).nl_to_br
+                -else
+                  -if signature_smilestoicon_allowed?
+                    = sanitize(	replace_smilies_with_icons(	@post[index].user.signature	), :tags => %w(img)	).nl_to_br
+                  -else
+                    =h(@post[index].user.signature).nl_to_br
+            <!-- post management -->
+
+          #post_links
+            -unless @usr.nil?
+              =link_to t(:report), :controller => 'forum', :action => 'report', :id => @post[index].id
+              -if @usr.admin? || (@usr.is_moderator && @usr.subpartitions.map(&:id).include?(Topic.find(params[:id]).subpartition.id))
+                -if @post[index].topic.first_post_id == @post[index].id
+                  =link_to t(:delete_topic), :controller => 'forum', :action => 'delete_topic', :id => @post[index].topic.id, :page => params[:page]
+                  =link_to t(:edit), :controller => 'forum', :action => 'edit_topic', :id => @post[index].topic.id, :post => @post[index].id
+                -else
+                  =link_to t(:delete), :controller => 'forum', :action => 'delete_post', :id => @post[index].id, :page => params[:page]
+                  =link_to t(:edit), :controller => 'forum', :action => 'edit_post', :id => @post[index].topic.id, :post => @post[index].id
+              -else
+                -if @post[index].is_user_post @usr
+                  -if @post[index].topic.first_post_id == @post[index].id
+                    -if @group_permissions.g_delete_topics
+                      =link_to t(:delete_topic), :controller => 'forum', :action => 'delete_topic', :id => @post[index].topic.id, :page => params[:page]
+                    -if @group_permissions.g_edit_posts
+                      =link_to t(:edit), :controller => 'forum', :action => 'edit_topic', :id => @post[index].topic.id, :post => @post[index].id
+                  -else
+                    -if @group_permissions.g_delete_posts
+                      =link_to t(:delete), :controller => 'forum', :action => 'delete_post', :id => @post[index].id, :page => params[:page]
+                    -if @group_permissions.g_edit_posts
+                      =link_to t(:edit), :controller => 'forum', :action => 'edit_post', :id => @post[index].topic.id, :post => @post[index].id
+            %a{:href => "javascript:insert_text(selektion, '')", :onmouseover => "selektion = getSel();"}
+              =t(:quote)
+
+
+  -if params[:action] == 'posts_moderate'
+    %table#posts_moderate_panel{:width => '90%', :align => 'center', :border => '0'}
+      %tr
+        %td#posts_moderate_panel_td{:align => 'right'}
+          =hidden_field_tag 'selected_topic',params[:topic_id]
+          =render :partial => 'moderate_post_panel'
+      %tr
+        %td
+          %div{:align => 'right'}
+            =link_to t(:select_all), {:anchor => '#'}, :onclick => 'return turnon_checkboxes(document.getElementById("topic_moderate"));'
+          %div{:align => 'right'}
+            =link_to t(:show_topic), :controller => 'forum', :action => 'view_posts', :id => params[:id], :page => params[:page] 
+
+  -unless params[:action] == 'posts_moderate'
+    -if @usr && (@usr.admin? ||  (@usr.is_moderator && @usr.subpartitions.map(&:id).include?(Topic.find(params[:id]).subpartition.id)))
+      %table#posts_moderate_panel{:width => '90%', :align => 'center', :border => '0'}
+        %tr
+          %td#posts_moderate_panel_td{:align => 'right'}
+            %b
+              =link_to t(:move_topic), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'move', :selected_topic => {params[:id] => params[:id]}}
+              =link_to t(:delete_topic), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'delete', :selected_topic => {params[:id] => params[:id]}}
+              -if Topic.exists?(params[:id]) && Topic.find(params[:id]).closed
+                =link_to t(:open_topic), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'open', :selected_topic => {params[:id] => params[:id]}}
+              -else
+                =link_to t(:close_topic), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'close', :selected_topic => {params[:id] => params[:id]}}
+              -if Topic.exists?(params[:id]) && Topic.find(params[:id]).sticky
+                =link_to t(:unstick), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'unstick', :selected_topic => params[:id]}
+              -else
+                =link_to t(:stick), {:controller => 'moderation', :action => 'index', :id => Topic.find(params[:id]).subpartition.id, :commit => 'stick', :selected_topic => params[:id]}
+              &nbsp;&nbsp;
+              =link_to t(:moderate), {:controller => 'moderation', :action => 'posts_moderate', :id => Topic.find(params[:id]).subpartition.id, :topic_id => params[:id]}
+
+  %table#t1{:width => '90%', :border => '0'}
+    %tr
+      %td{:width => '20%'}
+        =will_paginate @post, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+      %td
+        =link_to t(:list), :controller => 'forum', :action => 'main'
+        =' >> '
+        =link_to @topic.subpartition.title, :controller => 'forum', :action => 'view_topics', :id => @topic.subpartition.id
+        =' >> '
+        =h @topic.title
+
+    -#unless Topic.find(params[:id]).closed
+    -unless @topic.closed
+      -if Group.find(	Group.get_user_group_id(@usr)	).forum_perms.find_by_subpartition_id(@topic.subpartition.id).post_replies                
+        #underposts{:align => 'right'}
+          = link_to t(:post_reply), :action => 'postreply', :id => params[:id]
+        -if @usr && Configs.get_config('show_quickpost').to_bool
+          -unless params[:action] == 'posts_moderate'
+            =render :partial => "forum/answer_form", :locals => {:text_area_size => '140x10', :show_attach_field => false, :curr_action => 'view_posts'}
+      -else
+        #underposts{:align => 'right'}
+          =t(:subp_post_perm)
+    -else
+      -if @usr && (@usr.admin? ||  (@usr.is_moderator && @usr.subpartitions.map(&:id).include?(Topic.find(params[:id]).subpartition.id)))
+        -if Group.find(	Group.get_user_group_id(@usr)	).forum_perms.find_by_subpartition_id(@post.first.topic.subpartition.id).post_replies                
+          #underposts{:align => 'right'}
+            = link_to t(:post_reply), :controller => 'forum', :action => 'postreply', :id => params[:id]
+          -if @usr && Configs.get_config('show_quickpost').to_bool
+            -unless params[:action] == 'posts_moderate'
+              =render :partial => 'forum/answer_form', :locals => {:text_area_size => '140x10', :show_attach_field => false, :curr_action => 'view_posts'}
+        -else
+          #underposts{:align => 'right'}
+            =t(:subp_post_perm)
+      -else
+        #underposts{:align => 'right'}
+          =t(:closed_topic)    
+
+  %script{:type => 'text/javascript' }
+    $$('code').each(function(elem, index){elem.wrap('pre');});
+    hljs.initHighlightingOnLoad();
+
+
+    
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                    
+            
+            
+            
+            

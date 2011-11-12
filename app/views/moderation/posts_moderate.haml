@@ -1,0 +1,3 @@
+-#form_tag "/moderation/index/#{Topic.find(params[:id]).subpartition.id}", :id => 'topic_moderate' do
+-form_tag "/moderation/index/#{@topic.id}", :id => 'topic_moderate' do
+  =render '/forum/view_posts_partial'

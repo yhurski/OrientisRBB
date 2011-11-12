@@ -1,0 +1,30 @@
+-form_for '/admin/prune_topics' do
+  -field_set_tag t(:prune_set_msg) do
+    .inform_mess
+      =t(:may_prune)
+      %br
+      %br
+      %b
+        =t(:important)
+      =t(:use_this_feat)
+    #custom_param
+      %span
+        =label_tag t(:prune_from_forum)
+      #prune_topics_c
+        =select_tag 'prune[subpartition]', @options
+    %br
+    #custom_param
+      %span
+        =label_tag t(:days_old)
+      #prune_topics_c
+        =text_field_tag 'prune[days_old]',nil,:size => 4, :maxlength => 4  
+    %br
+    #custom_param
+      %span
+        =label_tag t(:prune_sticky)
+      #prune_topics_c
+        =check_box_tag 'prune[prune_sticky]',1
+        %small
+          =t(:enable_if_you_want)
+    %br    
+  =submit_tag t(:del)  

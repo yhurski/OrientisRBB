@@ -1,0 +1,34 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =will_paginate @topics, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+%table{:width => '100%'}
+  %tr#shapka
+    %th{:width => '30%'}
+      =t :topics
+    %th{:width => '10%'}
+      =t :forum
+    %th{:width => '20%'}
+      =t :posts
+    %th
+      =t :last_post
+  -for topic in @topics
+    %tr
+      %td#title{:width => '30%'}
+        =link_to topic.title, { :controller => 'forum', :action => 'view_posts', :id => topic.id }
+        %br
+        =t :created_by
+        =topic.poster
+      %td#views{:align => 'center', :width => '10%'}
+        =(topic.subpartition.partition.title + "." + topic.subpartition.title).upcase
+      %td#last_date_mess{:align => 'center', :width => '20%'}
+        =topic.num_replies
+      %td#last_user{:width => '20%', :align => 'center'}
+        =link_to topic.last_post.to_s, {:controller => 'forum', :action => 'view_posts', :id => topic.id}
+        %br
+        =t(:by) + h(topic.last_poster)
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =will_paginate @topics, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+

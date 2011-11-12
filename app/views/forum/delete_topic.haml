@@ -1,0 +1,63 @@
+%table#t1{:width => '96%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:del_topic)
+    %tr
+      %th#title{:width => '100%', :height => '30%', :align => 'left'}
+        .inform_mess
+          %ul
+            %li
+              =t(:forum)
+              =t(:colon)
+              =h @topic.subpartition.title
+            %li
+              =t(:topic)
+              =t(:colon)
+              =h @topic.title
+            %li
+              =t(:created)
+              =@usr.timedate_convert(Post.find(@topic.first_post_id).posted)
+              =t(:by)
+              =h @topic.poster    
+      %tr
+        %td        
+          %table#post_table{:width => '98%', :align => 'center', :border => '0'}
+            %tr#post_title
+              %td{:colspan => '2'}
+                =link_to h(@topic.subpartition.title), {:controller => 'forum', :action => 'view_topics', :id => @topic.subpartition.id}
+                >>
+                =link_to h(@topic.title), {:controller => 'forum', :action => 'view_posts', :id => @topic.id}
+                >>
+                =link_to @usr.timedate_convert(  Post.find(@topic.first_post_id).posted  ),  |
+                              {:controller => 'forum', :action => 'view_posts', :id => @topic.id, :anchor => "p"+Post.find(@topic.first_post_id).id.to_s}  |
+            %tr
+              %td#post_userbar{:width => '15%', :align => 'center', :valign => 'top'}
+                %h4
+                  =h @topic.poster
+                %h5
+                  %b
+                    =t(:replies) + t(:space) + @topic.num_replies.to_s
+              %td#message{:width => '85%', :valign => 'top'}
+                #post_text
+                  -if (message = Post.find(@topic.first_post_id).message).size > 300
+                    =h(message[0..300]) + "..."
+                    %br
+                    %div{:align => 'center'}
+                      %h4
+                        =t(:skipped)
+                  -else
+                    =h(message)  
+        %tr
+          %td               
+            %hr{:width => '96%', :align => 'center'}
+              %div{:align => 'center'}
+                -unless params[:controller] == 'moderation'
+                  -form_tag "/forum/delete_topic/#{@topic.id}" do 
+                    =submit_tag t(:delete), :name => 'delete'
+                    =submit_tag t(:cancel), :name => 'cancel'
+                -else
+                  -form_tag "/moderation/index/#{params[:id]}" do |f|
+                    =hidden_field_tag 'selected_topic', params[:selected_topic]
+                    =submit_tag t(:delete), :name => 'delete_this_topic'
+                    =submit_tag t(:cancel), :name => 'delete_this_topic'   
+              %br

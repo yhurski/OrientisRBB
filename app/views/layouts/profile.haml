@@ -1,0 +1,170 @@
+!!!
+%html
+  %head
+    %title
+  
+  %body
+    =javascript_include_tag :defaults
+    =stylesheet_link_tag :all
+    =stylesheet_link_tag "#{@forum_style}/#{@forum_style}"
+    %table#t1{:width => '90%'}
+      %tr#shapka_title
+        %td
+          =render :partial => 'forum/board_title', :locals => {:title => Configs.get_config('board_title'),
+                                                                                :desc => Configs.get_config('board_desc')}
+      %tr#shapka
+        %th{:width => '100%', :height => '10%', :align => 'left'}
+          =link_to t(:list), :action => 'main', :controller => 'forum'
+          =link_to t(:users), :action => 'users_list', :controller => 'forum'
+          -if @usr.nil?
+            =link_to t(:registration), :action => 'regist', :controller => 'forum'
+            =link_to t(:login), :action => 'login', :controller => 'forum'
+          -else
+            %span{:style => 'color:#fff333;'}
+              =#link_to t(:profile), :action => 'main', :controller => 'profile'
+              =t(:profile)
+            =link_to t(:logout), :action => 'logout', :controller => 'forum'
+            =link_to t(:search), :action => 'search', :controller => 'addendum'
+            -if @privilege_user.admin? || @privilege_user.group.moderator?
+              =link_to t(:administration), :action => 'setup', :controller => 'admin'
+      %tr
+        -unless @privilege_user.nil?
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =render :partial => 'forum/login_status', :object => @privilege_user
+        -else    
+          %th#title{:width => '100%', :height => '10%', :align => 'left'}
+            =t(:not_logined)
+    =render :partial => 'forum/show_notice_block'
+    %table#t2{:width => '90%'}
+      %tr
+        %td{:valign => 'top', :width => '20%'}
+          %table#profile_menu
+            %tr#shapka{:align => 'center'}
+              %td{:width => '100%'}
+                =t(:profile)
+            %tr
+              %td#menu_elem
+                =link_to t(:main), :action => 'main', :id => params[:id]
+            %tr
+              %td#menu_elem
+                =link_to t(:personal), :action => 'personal', :id => params[:id]
+            %tr
+              %td#menu_elem
+                =link_to t(:communication), :action => 'communication', :id => params[:id]
+            %tr
+              %td#menu_elem
+                =link_to t(:individual), :action => 'individual', :id => params[:id]
+            %tr
+              %td#menu_elem
+                =link_to t(:view), :action => 'view', :id => params[:id]
+            %tr
+              %td#menu_elem
+                =link_to t(:private), :action => 'private', :id => params[:id]
+            -if Configs.get_config('allow_avatars').to_bool
+              %tr
+                %td#menu_elem
+                  =link_to t(:avatar), :action => 'avatar', :id => params[:id]
+            -if @privilege_user.admin? || (@privilege_user.group.moderator? && @privilege_user.group.g_mod_change_password && ! @usr.group.moderator? && ! @usr.admin?)
+              -#if @privilege_user.group.g_mod_change_password
+              %tr
+                %td#menu_elem
+                  =link_to t(:password), :action => 'change_alien_password', :id => params[:id]
+            -if @privilege_user.admin? || (@privilege_user.group.moderator? && @privilege_user.group.g_mod_ban_users && ! @usr.group.moderator? && ! @usr.admin?)
+              -#if @privilege_user.group.g_mod_ban_users
+              %tr
+                %td#menu_elem
+                  =link_to t(:administration), :action => 'administration', :id => params[:id]
+
+        %td{:valign => 'top'}
+          %table#profile_main{:align => 'center'}
+            %tr#shapka
+              %td{:align => 'center'}
+                %b
+                  -unless params[:action] == 'change_alien_password'
+                    =#h params[:action].capitalize
+                    =h( t(params[:action]).capitalize )
+                  -else
+                    =t(:password)
+            %tr#user_profile_field
+              %td{:align => 'left'}
+                -if @privilege_user == @usr
+                  -if params[:action].downcase == 'main'
+                    %b
+                      =t(:welcome_profile)
+                  -if params[:action].downcase == 'personal'
+                    %b
+                      =t(:modify_personal)
+                  -if params[:action].downcase == 'communication'
+                    %b
+                      =t(:modify_settings)
+                  -if params[:action].downcase == 'individual'
+                    %b
+                      =t(:modify_subscription)
+                  -if params[:action].downcase == 'view'
+                    %b
+                      =t(:modify_view)
+                  -if params[:action].downcase == 'private'
+                    %b
+                      =t(:modify_email)
+                  -if params[:action].downcase == 'avatar'
+                    %b
+                      =t(:avatar_settings)
+                -else
+                  -if params[:action].downcase == 'main'
+                    %b
+                      =t(:welcome_to)
+                      =h(@usr.name)
+                      =t(:alien_profile)
+                      =#"Welcome to #{h(@usr.name)}'s profile"
+                  -if params[:action].downcase == 'personal'
+                    %b
+                      =t(:modify_alien_personal)
+                      =h(@usr.name)
+                      =t(:alien_personal)
+                    =#"Modify #{h(@usr.name)}'s personal details"
+                  -if params[:action].downcase == 'communication'
+                    %b
+                      =t(:modify_alien_contact)
+                      =h(@usr.name)
+                      =t(:alien_contact)
+                    =#"Modify #{h(@usr.name)}'s contact settings"
+                  -if params[:action].downcase == 'individual'
+                    %b
+                      =t(:modify_alien_subscription)
+                      =h(@usr.name)
+                      =t(:alien_subscription)
+                    =#"Modify #{h(@usr.name)}'s post subscription"
+                  -if params[:action].downcase == 'view'
+                    %b
+                      =t(:modify_alien_view)
+                      =h(@usr.name)
+                      =t(:alien_view)
+                    =#"Modify #{h(@usr.name)}'s forum view settings"
+                  -if params[:action].downcase == 'private'
+                    %b
+                      =t(:modify_alien_email)
+                      =h(@usr.name)
+                      =t(:alien_email)
+                    =#"Modify #{h(@usr.name)}'s e-mail settings"
+                  -if params[:action].downcase == 'avatar'
+                    %b
+                      =t(:modify_alien_avatar)
+                      =h(@usr.name.capitalize)
+                      =t(:alien_avatar)
+                    =#"#{h(@usr.name.capitalize)}'s avatar settings"
+                  -if params[:action].downcase == 'change_alien_password'
+                    %b
+                      =t(:modify_alien_password)
+                      =h(@usr.name.capitalize)
+                      =t(:alien_password)
+                    =#"#{h(@usr.name.capitalize)}'s password changing"
+                  -if params[:action].downcase == 'administration'
+                    %b
+                      =t(:modify_alien_administration)
+                      =h(@usr.name.capitalize)
+                      =t(:alien_administration)
+                      =#"#{h(@usr.name.capitalize)}'s administration settings"
+            %tr
+              %td
+                =yield :layout
+    =render :partial => "forum/forum_basement"

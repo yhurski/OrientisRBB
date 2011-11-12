@@ -1,0 +1,35 @@
+{
+  :en => 
+  {
+    :enter_search_criteria => 'Enter search criteria (use wildcard character * for partial matches)',
+    :username => "Username",
+    :title => "Title",
+    :real_name => "Real name",
+    :location => "Location",
+    :signature => "Signature",
+    :admin_note => "Admin note",
+    :email_addr => "E-mail address",
+    :web_site => "Web site",
+    :jabber => "Jabber",
+    :icq => "ICQ",
+    :msn => "MSN Messenger",
+    :aol => "AOL IM",
+    :yahoo => "Yahoo! Messenger",
+    :more_than => "More posts than",
+    :less_than => "Less posts than",
+    :last_after => "Last post is after",
+    :last_before => "Last post is before",
+    :reg_after => "Registration after",
+    :reg_before => "Registration before",
+    :sort_results => 'Sort user search results',
+    :order_by => "Order by",
+    :sort_order => "Sort order",
+    :asc => 'Ascending',
+    :desc => 'Descending',
+    :user_group => "User group",
+    :search => "Search",
+    :find_ip => 'Find a specific IP address in the post database',
+    :ip_addr => 'IP address',
+    :search => 'Search'
+  }
+}

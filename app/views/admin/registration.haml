@@ -1,0 +1,99 @@
+-form_tag "/admin/registration?act=save_reg" do
+  -field_set_tag t(:new_reg) do  
+    #custom_param
+      %span
+        =label_tag t(:allow_new_reg)
+      #custom_reg
+        =check_box_tag "allow_registration",1,@all_config_records.find{|record| record.name == "allow_registration"}.value.to_bool
+        %small
+          =t(:allow_users_reg)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:verify_reg)
+      #custom_reg
+        =check_box_tag "verify_registration",1,@all_config_records.find{|record| record.name == "verify_registration"}.value.to_bool
+        %small
+          =t(:verify_reg_by_email)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:reg_email)    
+      #custom_reg
+        =check_box_tag "email_registration",1,@all_config_records.find{|record| record.name == "email_registration"}.value.to_bool
+        %small
+          =t(:allow_reg_with_banned)
+    %br
+    #custom_param
+      %span
+      #custom_reg
+        =check_box_tag "email_registration_dub",1,@all_config_records.find{|record| record.name == "email_registration_dub"}.value.to_bool
+        %small
+          =t(:allow_reg_with_dub)
+    #custom_param
+      %span
+        =label_tag t(:notify_by_email)
+      #custom_reg
+        =check_box_tag "email_notify",1,@all_config_records.find{|record| record.name == "email_notify"}.value.to_bool
+        %small
+          =t(:notify_when_reg)
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:def_email_set)
+      #custom_reg
+        -case Configs.get_config("email_default").to_i
+        -when 0  
+          =render :partial => 'display_email_radiobuttons', :locals => {:show => true, :hide_but_permit_send => false, :hide => false}
+        -when 1
+          =render :partial => 'display_email_radiobuttons', :locals => {:show => false, :hide_but_permit_send => true, :hide => false}  
+        -when 2
+          =render :partial => 'display_email_radiobuttons', :locals => {:show => false, :hide_but_permit_send => false, :hide => true}
+
+  -field_set_tag t(:forum_rules) do
+    #custom_param
+      %span
+        =label_tag t(:use_rules)
+      #custom_reg
+        =check_box_tag "use_rules",1, @all_config_records.find{|record| record.name == "use_rules"}.value.to_bool
+        %small
+          =t(:rules_agree)
+    %br
+    #custom_param
+      %span
+        =label_tag t(:compose_rules)
+    =text_area_tag "rules_text",@all_config_records.find{|record| record.name == "rules_text"}.value,:size=>"80x8"
+    %br
+    %br  
+  =submit_tag t(:save)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            

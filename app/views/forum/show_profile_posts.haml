@@ -1,0 +1,34 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =#will_paginate @user_posts
+-for post in @user_profile_posts
+  %table#post_table{:width => "96%", :align => "center",  :border => "0"}
+    %tr#post_title
+      %td{:colspan => '2'}
+        =link_to post.topic.subpartition.title, {:controller=>'forum',:action=>'view_topics', :id=>post.topic.subpartition.id } 
+        >> 
+        =link_to h(post.topic.title), {:controller=>'forum',:action=>'view_posts', :id=>post.topic.id } 
+        >> 
+        -if @usr
+          =link_to @usr.timedate_convert(post.posted), { :controller=>'forum', :action=>'view_posts', :id=>post.topic.id }
+        -else
+          =link_to universal_timedate_convert(post.posted), { :controller=>'forum', :action=>'view_posts', :id=>post.topic.id }
+    %tr
+      %td#post_userbar{ :width => "15%", :align => "center", :valign => "top"}
+        %h4
+          =h post.poster
+        %h5
+          %b
+            =t(:replies_word)            
+            =post.topic.num_replies.to_s
+          %br
+          =link_to "Go to topic", { :controller => 'forum', :action => 'view_posts', :id => post.topic.id }
+          -#<!--	<img src=<%# image_path("avatars/#{@usr.user}.gif") %>> -->
+      %td#message{ :width => "85%", :valign => "top" }
+        #post_text
+          =h post.message
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =#will_paginate @user_posts

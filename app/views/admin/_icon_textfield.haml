@@ -1,0 +1,5 @@
+=text_field_tag "icon"+"[#{icon_textfield_counter}]", icon_textfield[0]
+=text_field_tag "iconfile"+"[#{icon_textfield_counter}]", icon_textfield[1]
+=#image_tag File.join(@rpath, icon_textfield[1])
+%img{:src => File.join(@rpath, icon_textfield[1])}
+%br

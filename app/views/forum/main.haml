@@ -1,0 +1,108 @@
+%table#t1{:width => '90%'}
+  -for partition in @partitions do
+    -unless partition.subpartitions.empty?
+      %tr#shapka
+        %th{:width => '100%', :height => '10%', :colspan => '5'}
+          =h(partition.title)
+      %tr#shapka_title{:width => '15%'}
+        %td{:width => '3%'}
+        %td{:width => '47%'}
+          =t(:subpartitions)
+        %td{:width => '10%'}
+          =t(:topics)
+        %td{:width => '10%'}
+          =t(:posts)
+        %td{:width => '30%'}
+          =t(:last_subpart_msg)
+    -for subpartition in partition.subpartitions.sort{|f,s| f.part_pos <=> s.part_pos} do
+      %tr#title
+        %td
+          -if @usr && subpartition.last_post && @usr.last_visit && (subpartition.last_post > @usr.last_visit)
+            =image_tag(@forum_style + '/new_msg_img.gif')
+        %td#title
+          %b
+            =link_to subpartition.title, {:action => 'view_topics', :id => subpartition.id}
+          %br
+          %i
+            =subpartition.desc
+        %td#views{:align => 'center'}
+          =subpartition.num_topics
+        %td#last_date_mess{:align => 'center'}
+          =subpartition.num_posts
+        %td#last_user{:align => 'center'}
+          -if @usr
+            =@usr.timedate_convert(subpartition.last_post)
+          -else
+            =universal_timedate_convert(subpartition.last_post)
+          -if subpartition.last_post.nil?
+            =t(:never)
+          -unless subpartition.last_poster.blank?
+            =t(:by)
+            =subpartition.last_poster
+          -unless subpartition.users.empty?
+            %br
+            %i
+              (moderators: 
+              =h subpartition.users.map(&:name).join(', ')
+            )
+%br
+%table#t1{:width => '90%'}
+  %tr
+    %td{:align => 'left'}
+      =t :users_count
+      =User.count - 1
+      %br
+      =t :last_user
+      =#h(	User.get_last_registered.name	)
+      -#debugger
+      -if @group_permissions.admin?
+        =link_to h(User.get_last_registered.name), :controller => 'profile', :action => 'main', :id => User.get_last_registered.id
+      -elsif @group_permissions.moderator?
+        -if ! @post[index].user.admin? && ! @post[index].user.is_moderator? && @group_permissions.g_view_users
+          =link_to h(User.get_last_registered.name), :controller => 'profile', :action => 'main', :id => User.get_last_registered.id
+        -else
+          -if @group_permissions.g_view_users
+            =link_to h(User.get_last_registered.name), :action => 'profile', :id => User.get_last_registered.id
+          -else
+            =h(User.get_last_registered.name)
+      -else
+        =link_to_if @group_permissions.g_view_users, h(User.get_last_registered.name), :action => 'profile', :id => User.get_last_registered.id
+    %td{:align => 'right'}
+      =t :number_of_topics
+      =Topic.count
+      %br
+      =t :number_of_posts
+      =Post.count
+  -if Configs.get_config('show_usersonline').to_bool
+    %tr
+      %td{:colspan => '2'}
+        %hr
+        =t :online
+        (
+        =t :online_guests
+        =Online.guests_count.to_s
+        =t :online_users        
+        =Online.registered_users_count.to_s
+        )
+        -Online.registered_users.each do |user|
+          -if @usr
+            -if @usr.admin?
+              =link_to h(user.name), :controller => 'profile', :action => 'main', :id => User.find(user.user_id).id
+            -elsif User.find(user.user_id) == @usr
+              =link_to h(user.name), :controller => 'profile', :action => 'main'
+            -elsif @usr.allow_moderation?
+              -if User.find(user.user_id)..is_moderator? || User.find(user.user_id).group.admin?
+                =link_to h(user.name), :action => 'profile', :id => User.find(user.user_id).id
+              -else
+                =link_to h(user.name), :controller => 'profile', :action => 'main', :id => User.find(user.user_id).id
+            -else
+              =link_to h(user.name), :action => 'profile', :id => User.find(user.user_id).id
+          -else
+            -if @group_permissions.g_view_users
+              =link_to h(user.name), :action => 'profile', :id => User.find(user.user_id).id
+            -else
+              =h user.name
+
+
+
+        

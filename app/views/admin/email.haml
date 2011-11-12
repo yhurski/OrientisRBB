@@ -1,0 +1,79 @@
+-form_tag "/admin/email?act=save_email" do
+  -field_set_tag t(:forum_email_mailing) do
+    #custom_param
+      %span
+        =label_tag t(:admin_email)
+      #custom_notice
+        =text_field_tag "admin_email",@all_config_records.find{|record| record.name == "admin_email"}.value,:size=>50,:maxlength=>255
+    %br
+    #custom_param
+      %span
+        =label_tag t(:webmaster_email)
+      #custom_notice
+        =text_field_tag "webmaster_email",@all_config_records.find{|record| record.name == "webmaster_email"}.value,:size=>50,:maxlength=>255
+    %br
+    %br
+    #custom_param
+      %span
+        =label_tag t(:create_mailing)
+    %small
+      =t(:comma_separated_list)
+    %br
+    =text_area_tag "mailing_list",@all_config_records.find{|record| record.name == "mailing_list"}.value,:size=>"80x4"
+    %br
+    %br
+  -field_set_tag t(:configure_mail_server) do
+    %br
+    #custom_param
+      %span
+        =label_tag t(:smtp_addr)
+      #custom_notice
+        =text_field_tag "smtp_address",@all_config_records.find{|record| record.name == "smtp_address"}.value,:size=>50,:maxlength=>50
+    %br
+    #custom_param
+      %span
+        =label_tag t(:smtp_username)
+      #custom_notice
+        =text_field_tag "smtp_username",@all_config_records.find{|record| record.name == "smtp_username"}.value,:size=>50,:maxlength=>50
+    %br
+    #custom_param
+      %span
+        =label_tag t(:smtp_password)
+      #custom_notice
+        =text_field_tag "smtp_password",@all_config_records.find{|record| record.name == "smtp_password"}.value,:size=>50,:maxlength=>50
+    %br
+    #custom_param
+      %span
+        =label_tag t(:use_ssl)
+      #custom_notice
+        =check_box_tag "smtp_ssl",1,@all_config_records.find{|record| record.name == "smtp_ssl"}.value.to_bool
+        %small
+          =t(:req_if)
+    %br
+    %br  
+    %hr
+  =submit_tag t(:save)  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                    

@@ -1,0 +1,34 @@
+%table#t1{:width => '90%'}
+    %tr#shapka
+        %th{:height => '10%', :align => 'left'}
+            =t(:del_attach_conf)
+    %tr
+        %th#title{:height => '30%', :align => 'left'}  
+            .inform_mess
+                %h3
+                    =t(:attach_info)
+                %ul
+                    %li 
+                        =t(:filename_title)
+                        =h @attach_file.attach_file_name
+                    %li
+                        =t(:size_title)
+                        =@attach_file.attach_file_size
+                    %li
+                        =t(:mime_type_title)
+                        =@attach_file.attach_content_type
+                    %li
+                        =t(:uploaded_title)
+                        =@usr.timedate_convert(@attach_file.attach_updated_at)
+                    %li
+                        =t(:has) 
+                        =@attach_file.download_counter
+                        =t(:downloads)
+    %tr
+        %td
+            %hr#divine_line{:width => '96%', :align => 'center'}    
+            .delete_form{:align => 'center'}                  
+                -form_tag :action => 'remove_attach', :attach_id => @attach_file.id, :page => @page do
+                    %br
+                    =submit_tag t(:remove_btn)
+                    =submit_tag t(:cancel_btn)

@@ -1,0 +1,4 @@
+<%= h(@report.message) %>
+
+Post: <%= link_to "Post ##{@report.post.id}", :host => @host, :controller => 'forum', :action => 'view_posts', :id => @report.topic.id,
+                                           :page => (@report.topic.posts.sort{|p1,p2| p1.posted <=> p2.posted}.index(@report.post).to_f/Configs.get_config('postsperpage').to_f).ceil,:anchor => "p#{@report.post.id}" %>

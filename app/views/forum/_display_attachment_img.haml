@@ -1,0 +1,22 @@
+-if Configs.is_allowed_img(display_attachment_img.attach_file_name)
+  .post_attach_img
+    %a{:href => "#{send_attach_url(:filename => display_attachment_img.attach_file_name, :attach_id => display_attachment_img.id)}"}
+      %img{:src => display_attachment_img.attach.url(:thumb)}
+  .post_attach_img_info
+    =t(:img_info)
+    %b
+      =t(:name)
+    =h display_attachment_img.attach_file_name
+    %b
+      =t(:size)
+    =number_to_human_size(display_attachment_img.attach_file_size.to_i)
+    &nbsp;&nbsp;&nbsp;
+    -if display_attachment_img.download_counter.to_i == 0
+      =t(:not_downloaded)
+    -else
+      =display_attachment_img.download_counter.to_s + t(:downloads)
+    %br
+    =t(:click)
+    -if @group_permissions.attach_allow_delete_own
+      %br
+      =link_to t(:rem_attach), remove_attach_url(:attach_id => display_attachment_img.id)

@@ -1,0 +1,69 @@
+-form_tag '/profile/main' do
+  -field_set_tag t(:username_and_password) do
+    %span
+      =t(:name)
+    =h @usr.name
+    -if @privilege_user == @usr
+      =" - "
+      =link_to t(:change_password), :action => 'change_pass'
+  -field_set_tag t(:enter_email) do
+    %p
+      %span
+        =t(:email)
+      =h @usr.email
+      -if @privilege_user == @usr
+        =" - "
+        =link_to t(:change_email), :action => 'change_email'
+  -field_set_tag t(:choice_regional) do
+    .formError
+      =error_message_on 'usr', 'timezone', :css_class => 'inform_mess'
+    #custom_param
+      %span
+        =label_tag t(:timezone_settings)
+      #custom_profile_tz
+        =#time_zone_select 'users', 'timezone', nil, :default => @usr.timezone
+        =localized_time_zone_select 'users', 'timezone', @usr.timezone
+    %br
+    #custom_param
+      %span
+        =t(:daylight)
+      #custom_profile_dst
+        =check_box_tag 'users[dst]', true, @usr.dst
+        %small
+          =t(:setup_for_dst)
+    %br
+    %br
+    .formError
+      =error_message_on 'usr', 'forum_lang', :css_class => 'inform_mess'
+    %span
+      =label_tag t(:choice_language)
+    #custom_profile_tz
+      =select_tag 'users[forum_lang]', options_for_select(@board_langs.map{|lang| [lang,lang]}, @usr.forum_lang)
+  -field_set_tag t(:users_activity) do
+    %p
+      %span
+        =t(:reg_date)
+      =@usr.timedate_convert(@usr.regdatetime)
+    %p
+      %span
+        =t(:last_msg)
+      =@usr.timedate_convert(@usr.last_post) || t(:never)
+    -if Configs.get_config('allow_postcount').to_bool  
+      %p 
+        %span
+          =t(:messages_amount)
+        =@usr.numposts
+        -unless @usr.numposts == 0
+          =" - " 
+          =link_to t(:show_all_msg), :action => 'messages'
+  -field_set_tag t(:private_info) do
+    -if @usr.adminnote
+      %p
+        %span
+          =t(:note)
+        =h @usr.adminnote
+    %p
+      %span
+        =t(:registration_ip)
+      =@usr.registration_ip
+  =submit_tag t(:save)

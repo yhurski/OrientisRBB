@@ -1,0 +1,20 @@
+%table#t1{:width => '96%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:move)
+    %tr 
+      %th#title{:width => '100%', :height => '30%', :align => 'left'}      
+        -form_tag "/moderation/index/#{@subpartition_id}" do |f|  
+	  =t(:dest)
+          =select_tag 'moved_to', @forums
+          %br
+	  =t(:redir)
+          =check_box_tag 'redirect_allowed',1,true
+	  =t(:leave)
+          -params[:selected_topic].each_key do |key|  
+            =hidden_field_tag "selected_topic[#{key}]", key   
+          %hr
+          =submit_tag t(:move)
+          =submit_tag t(:cancel)
+        
+        

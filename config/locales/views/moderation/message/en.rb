@@ -1,0 +1,6 @@
+{
+ :en =>
+ {
+  :msg => 'Forum message'
+ }
+}

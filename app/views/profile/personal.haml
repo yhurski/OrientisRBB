@@ -1,0 +1,52 @@
+-form_tag "/profile/personal/#{params[:id]}"  do
+  -field_set_tag t(:personal_data) do
+    -if (@privilege_user && @privilege_user.admin?) || (@privilege_user.group.moderator? && ! @usr.group.moderator? && ! @usr.admin?)
+      -if @privilege_user.group.g_mod_rename_users
+        =label_tag t(:name_req)
+        %br
+        =text_field_tag 'users[name]', @usr.name, :size => 25, :maxlength => 25
+        %br
+      #custom_profile
+        =label_tag t(:email_req)
+        %br
+        =text_field_tag 'users[email]', @usr.email, :size => 25, :maxlength => 50
+      %br
+      %br
+    .formError
+      =error_message_on 'usr', 'realname', :prepend_text => t(:rn_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'realname', t(:your_real_name)
+      %br
+      =text_field_tag 'users[realname]', @usr.realname, :size => 50
+    .formError
+      =error_message_on 'usr', 'location', :prepend_text => t(:location_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'location', t(:location)
+      %br
+      =text_field_tag 'users[location]', @usr.location, :size => 50
+    .formError
+      =error_message_on 'usr', 'web', :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'web', t(:website)
+      %br
+      =text_field_tag 'users[web]', @usr.web, :size => 50
+    -if @usr.group.admin? || @usr.group.g_set_title
+      .formError
+        =error_message_on 'usr', 'title', :css_class => 'inform_mess'
+      ~#%br
+      #custom_profile
+        =label_tag 'title', t(:title)
+        %br
+        =text_field_tag 'users[title]', @usr.title, :size => 50, :maxlength => 50
+    -if (@privilege_user && @privilege_user.admin?) || (@privilege_user.group.moderator? && ! @usr.group.moderator? && ! @usr.admin?)
+      %br
+      %br
+      #custom_profile
+        =label_tag 'edit post count', t(:edit_post_count)
+        %br
+        =text_field_tag 'users[numposts]', @usr.numposts, :size => 5, :maxlength => 11
+      #custom_profile
+        =label_tag 'admin note', t(:admin_note)
+        %br
+        =text_field_tag 'users[adminnote]', @usr.adminnote, :size => 50, :maxlength => 255
+  =submit_tag t(:save)

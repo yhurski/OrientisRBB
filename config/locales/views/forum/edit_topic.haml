@@ -1,0 +1,16 @@
+%table#t1{:width => '96%'}
+    %tr#shapka
+        %th{:width => '100%', :height => '10%', :align => 'left'}
+            Post reply message
+    %tr
+        %th#title{:width => '100%', :height => '30%', :align => 'left'}
+            -#if @usr.attachmentAllowed?
+            -#if true
+                -#content_for :attachment_field do
+                    -#form_for @attachment, :attach, :url => {:action => 'postreply'}, :html => {:multipart => true} do  
+                    =#f.file_field :attach    
+            =render :partial => "answer_form", :locals => {:text_area_size => '140x30',:show_attach_field => true}
+    
+    
+    
+              

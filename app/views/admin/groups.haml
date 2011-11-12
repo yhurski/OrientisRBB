@@ -1,0 +1,54 @@
+-form_tag :action => 'addgroup', :id => params[:parent_group]  do
+    -field_set_tag t(:add_new_group) do
+        %br
+        =label_tag t(:base_new_group)
+        =select_tag 'parent_group', options_for_select(Group.find(:all, :conditions => ["is_admin = 0 and is_guest = 0"]).map{|gr| [gr.name, gr.id]}, Configs.get_config('default_group').to_i)    
+        =submit_tag t(:create_new)
+        %br
+        %br
+-form_tag "groups?act=setdef" do
+    -field_set_tag t(:def_group) do
+        %small
+            =t(:def_group_for_new)
+        %br
+        %br
+        =label_tag t(:def_group)
+        =select_tag 'def_groups', options_for_select(Group.find(:all, :conditions => ["is_moder_in_group = 0 and is_admin = 0 and is_guest = 0"]).map{|gr| [gr.name, gr.id]}, Configs.get_config('default_group').to_i)
+        =submit_tag t(:set_def_group)
+        %br
+        %br
+    #edit_groups
+    -field_set_tag t(:ex_gr) do
+        .inform_mess{:align=>"center"}
+            =t(:predefined_groups)
+        %br
+        .formError
+            =error_message_on 'gr', "attach_upload_max_size", :css_class => 'inform_mess'
+        -Group.all.each do |group|
+            %span
+                =h(group.name)
+            #custom_search
+                -if Configs.find_by_name("default_group").value.to_i == group.id
+                    %strong
+                        =t(:def_grp)
+                =link_to t(:edit), :action => "editgroup", :ident => group.id
+                -if Configs.find_by_name('default_group').value.to_i == group.id
+                    =t(:to_rem_gr)
+                -elsif group.name == 'Administrators' or group.name == 'Guests'
+                    =t(:cannot_rem)
+                -else
+                    =link_to t(:remove), :action => "groups", :act=>"drop", :ident => group.id    
+            %br
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                

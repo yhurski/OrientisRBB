@@ -1,0 +1,64 @@
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:search)
+  %tr
+    %th#title{:width => '100%', :height => '30%', :align => 'left'}
+      -form_tag "search?act=search", :id => 'search_form' do
+        -field_set_tag t(:search_criteria), {:id => 'search_field'} do
+          #search_keyword
+            %label
+              =t(:keywords)
+            %br
+            =text_field_tag "keywords",nil, :size=>30, :maxlength=>60
+          #search_author
+            %span
+              =t(:find_author)
+            %br
+            =text_field_tag "find_author",nil, :size=>20, :maxlength=>50
+          %br
+          %p#search_rules
+            %span
+              =t(:several_rules)
+            %h2
+              %ul{:type => 'circle'}
+                %li
+                  =t(:logical_conditions)
+                %li
+                  =t(:available_wildcards)
+              %ul
+                %li
+                  =t(:zero_more_chars)
+                %li
+                  =t(:one_char)
+        -field_set_tag t(:where_search), {:id => 'search_field'} do
+          #search_forum
+            %span
+              =t(:forum)
+          =select_tag "us_forum_subpart", @optitems
+          %br
+          %br
+          %small
+            =t(:select_forum_for_search)
+        -field_set_tag t(:choice_how_view_results), {:id => 'search_field'} do
+          #search_sortby
+            %span
+              =t(:sort_by)
+            %br
+            =select_tag "us_sortby", "<option value='0' selected='selected'>" + t(:by_time) + "</option><option value='1'>" + t(:by_author) + "</option><option value='2'>" + t(:by_title) + "</option><option value='3'>" + t(:by_forum_title) + "</option>"
+          #search_sortorder
+            %span
+              =t(:order_by)
+            %br
+            =select_tag "us_orderby", "<option value='0' selected='selected'>" + t(:by_asc) + "</option><option value='1'>" + t(:by_desc) + "</option>"
+          #search_resulttype
+            %span
+              =t(:show_results_as)
+            %br
+            =select_tag "us_resultas", "<option value='0' selected='selected'>" + t(:as_msg) + "</option><option value='1'>" + t(:as_themes) + "</option>"
+          %br
+          %br
+          %br
+          %small
+            =t(:sorting_and_display_results)
+        =submit_tag t(:search)

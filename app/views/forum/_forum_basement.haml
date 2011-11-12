@@ -1,0 +1,15 @@
+%br
+%table#t1{:width => '90%'}
+  %tr
+    %td{:align => 'left'}
+      -if Configs.get_config('allow_jumpmenu').to_bool
+        -form_tag '/forum/go_to_forum_page' do
+          =select_tag 'forum[id]', @forum_list
+          =submit_tag t(:go_btn)    
+    %td{:align => 'right'}
+      #boardname_in_footer
+        %h5
+          Powered by OrientisRBB
+          -if Configs.get_config('show_version').to_bool
+            =t(:ver)
+            =Configs.get_config('board_version')

@@ -1,0 +1,98 @@
+-form_tag '/admin/attachments' do
+  #custom_param
+    %span
+      =label_tag t(:numb_to_show)
+    #attach_search_c
+      =text_field_tag 'attach[count]', flash[:attach][:count],:size => 7, :maxlength => 7
+  %br
+  #custom_param
+    %span
+      =label_tag t(:file_size)
+    #attach_search_c
+      %small
+        =t(:from_size)
+      =text_field_tag 'attach[min_size]', flash[:attach][:min_size], :size => 7, :maxlength => 15
+      %small
+        =t(:to_size)
+      =text_field_tag 'attach[max_size]', flash[:attach][:max_size], :size => 7, :maxlength => 15
+  %br
+  #custom_param
+    %span
+      =label_tag t(:owner)
+    #attach_search_c
+      =select_tag 'attach[user]', options_for_select(User.all.map{|u| [u.name, u.id]}.unshift([t(:all_list), 0]), flash[:attach][:user].to_i), {:id => 'attachment_field'}
+  %br
+  #custom_param
+    %span
+      =label_tag t(:topic)
+    #attach_search_c
+      =select_tag 'attach[topic]', options_for_select(Topic.all.select{|t| t.has_attach?}.map{|t| [t.title, t.id]}.unshift([t(:all_list), 0]), flash[:attach][:topic].to_i), {:id => 'attachment_field'}
+  %br
+  #custom_param
+    %span
+      =label_tag t(:order_by)
+    #attach_search_c
+      =#select_tag 'attach[orderby]', options_for_select(AttachFile.columns.map(&:name).map{|name| [name, name]}, flash[:attach][:orderby])
+      =select_tag 'attach[orderby]', options_for_select([ [t(:file_name), 'attach_file_name'], [t(:file_size_sort), 'attach_file_size'], [t(:uploaded_date), 'attach_updated_at'], [t(:downloads_sort), 'download_counter'] ], flash[:attach][:orderby]), {:id => 'attachment_field'}
+  %br
+  %br 
+  #custom_param
+    %span
+      =label_tag t(:res_order)
+    #attach_search_c
+      =radio_button_tag 'attach[order]','asc',flash[:attach][:order][:asc]
+      =t(:asc_sort)
+      %br
+      =radio_button_tag 'attach[order]','desc',flash[:attach][:order][:desc]
+      =t(:desc_sort)
+  %br
+  %br 
+  =submit_tag t(:filter)
+  
+-unless @paginated_attaches.blank?
+  =#content_for :additional_block do
+  %table{:width => '100%', :border => '0'}
+    %tr
+      %td{:width => '20%'}
+        =will_paginate  @paginated_attaches, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+  %br
+  %table#profile_main{:width => '100%'}
+    %tr#shapka
+      %th{:width => '100%', :height => '10%', :colspan => '6', :align => 'left'}
+        %span#table_title
+          =t(:attach_files)
+    %tr
+      %td#title{:width => '20%', :height => '30%', :align => 'left'}
+        %span
+          =t(:file_name)
+      %td#title{:width => '15%', :height => '30%', :align => 'left'}
+        %span
+          =t(:file_size)
+      %td#title{:width => '25%', :height => '30%', :align => 'left'}
+        %span
+          =t(:owner)
+      %td#title{:width => '20%', :height => '30%', :align => 'left'}
+        %span
+          =t(:uploaded_date)
+      %td#title{:width => '10%', :height => '30%', :align => 'left'}
+        %span
+          =t(:downloads)
+    -for attach in @paginated_attaches
+      %tr
+        %td#title
+          =link_to h(attach.attach_file_name), send_attach_url(:filename => attach.attach_file_name, :attach_id => attach.id)
+        %td#title
+          =number_to_human_size(  attach.attach_file_size  )
+        %td#title
+          =h(attach.user.name)
+        %td#title
+          =@usr.timedate_convert(  attach.attach_updated_at  )
+          =#attach.attach_content_type
+        %td#title
+          =attach.download_counter            
+  %table{:width => '100%', :border => '0'}
+    %tr
+      %td{:width => '20%'}
+        =will_paginate  @paginated_attaches, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+-else
+  =t(:no_attaches)

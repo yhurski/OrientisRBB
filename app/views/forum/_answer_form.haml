@@ -1,0 +1,147 @@
+%table#t1{:width => '90%', :align => 'center'}  
+  %tr
+    %td{:width => '90%', :height => '100%', :align => 'left'}
+      -field_set_tag t(:write_msg_set_tag), {:id => 'answer_form_field'} do
+        <!-- show error message(s) -->
+        -if flash[:drop_attach_error]
+          .formError
+            .inform_mess
+              =flash[:drop_attach_error]  
+        -if flash[:empty_post]
+          .formError
+            .inform_mess
+              =flash[:empty_post]
+        -if @new_post && ! @new_post.errors.blank?
+          -@new_post.errors.each do |col, msg|         
+            .formError
+              .inform_mess
+                =msg   
+        -if @attach_error.instance_of?(String)
+          .formError
+            .inform_mess
+              =@attach_error
+        -form_for :attach, :url => {:controller => 'forum', :action => curr_action, :id => params[:id], :page => params[:page]}, :html => {:multipart => true, :id=>'answer_form'} do |f|
+          -unless @usr
+            -if flash[:empty_anon_name]
+              .formError
+                .inform_mess
+                  =#flash[:empty_anon_name]
+              .formError
+                =#error_message_on 'new_post', 'poster', :css_class => 'inform_mess'
+             
+            =label_tag t(:guets_name)
+            =text_field_tag 'anonym_name', nil, :size => '30', :maxlength => '25'
+            %br
+            -if flash[:empty_anon_email]
+              .formError
+                .inform_mess
+                  =#flash[:empty_anon_email]
+              .formError
+                =#error_message_on 'new_post', 'poster_email', :css_class => 'inform_mess'      
+            =label_tag t(:guest_email)
+            =text_field_tag 'anonym_email', nil, :size => '30', :maxlength => '50'
+            %br
+            %br
+          =yield :new_topic_title_field
+          =submit_tag '[b]', :type => 'button', :onclick => "insert_text('[b]', '[/b]');"
+          =submit_tag '[u]', :type => 'button', :onclick => "insert_text('[u]', '[/u]');"
+          =submit_tag '[i]', :type => 'button', :onclick => "insert_text('[i]', '[/i]');"
+          =submit_tag '[s]', :type => 'button', :onclick => "insert_text('[s]', '[/s]');"
+          =submit_tag '[color]', :type => 'button', :onclick => "insert_text('[color]', '[/color]');"
+          =submit_tag '[url]', :type => 'button', :onclick => "insert_text('[url]', '[/url]');"
+          =submit_tag '[code]', :type => 'button', :onclick => "insert_text('[code]', '[/code]');"
+          =submit_tag '[quote]', :type => 'button', :onclick => "insert_text('[quote]', '[/quote]');"
+          =submit_tag '[img]', :type => 'button', :onclick => "insert_text('[img]', '[/img]');"
+          =submit_tag '[youtube]', :type => 'button', :onclick => "insert_text('[youtube]', '[/youtube]');"
+          %br
+          #msg_text_area{:align => 'center'}
+            -if @post_incomplete
+              =text_area_tag "answer_message",@post_incomplete.message, :size => text_area_size
+            -else
+              =text_area_tag "answer_message",nil, :size => text_area_size
+          %br
+          %b
+            =t :bbcode
+            =t :colon
+          -if Configs.get_config('allow_bbcsignature').to_bool
+            =link_to t(:enable), :action => 'bbcode_help'
+          -else
+            =t(:disable)
+          &nbsp;&nbsp;&nbsp;
+          %b
+            =t(:imgtag)
+            =t(:colon)
+          -if Configs.get_config('allow_bbcimgsignature').to_bool
+            =link_to t(:enable), :action => 'bbcodeimg_help'
+          -else
+            =t(:disable)
+          &nbsp;&nbsp;&nbsp;
+          %b
+            =t(:convert_smiles)
+            =t(:colon)
+          -if Configs.get_config('convert_smilestoicon').to_bool
+            =link_to t(:enable), :action => 'smiles_help'  
+          -else
+            =t(:disable)
+          %br
+          %br
+          =#start attachment block  
+          -if show_attach_field  
+            -if @post_incomplete
+              -@attach_number = 0
+              -for post_attach in @post_incomplete.attach_files
+                =t(:attach) + t(:space) + "#{@attach_number = @attach_number.next}" + t(:space) + t(:minus) + t(:space)
+                =#"Attachment #{@attach_number = @attach_number.next} - "
+                =link_to h(post_attach.attach_file_name), post_attach.attach.url
+                =t(:space)
+                =t(:minus)
+                =t(:space)
+                =t(:size)
+                =t(:colon)
+                =t(:space)
+                ="#{number_to_human_size(post_attach.attach_file_size.to_i)}" 
+                =#" - size: #{number_to_human_size(post_attach.attach_file_size.to_i)}"  
+                =link_to t(:drop_file), :action => 'drop_attach', :id => post_attach.id
+                %br
+          %br 
+          ~#if @usr.attachmentAllowed? && @attach_allowed
+          -unless Configs.get_config('attach_disable_attach').to_bool
+            -if @group_permissions.admin? || (@group_permissions.attach_allow_upload && @attach_allowed && @group_permissions.attach_upload_max_size.to_i > 0 &&    |
+                                                                                   @group_permissions.attach_files_per_post.to_i > 0)    |
+              -if @attach_max_size_error.instance_of?(String)
+                .formError
+                  .inform_mess
+                    =@attach_max_size_error
+              =t(:attach_info)
+              =t(:colon)
+              %br
+              ='===================='
+              %br
+              %ul
+                -if @group_permissions.attach_upload_max_size.to_i > 0
+                  %li
+                    =t(:attach_max_size)
+                    =t(:colon)
+                    =number_to_human_size(@group_permissions.attach_upload_max_size)
+                -if @group_permissions.attach_files_per_post.to_i > 0
+                  %li
+                    =t(:attach_count)
+                    =t(:colon)
+                    =@group_permissions.attach_files_per_post
+                -if @group_permissions.attach_disallowed_extensions.blank?
+                  -unless Configs.get_config('attach_always_deny').blank?
+                    %li
+                      =t(:allowed_files)
+                      =t(:space)
+                      =h Configs.get_config('attach_always_deny').to_s.split(',').join(', ')
+                -else
+                  %li
+                    =t(:allowed_only)
+                    =t(:space)
+                    =h (@group_permissions.attach_disallowed_extensions.to_s.split(',') - Configs.get_config('attach_always_deny').to_s.split(',')).to_s.split(',').join(', ')
+              =f.file_field :attach
+              =f.submit t(:upload), :name => 'upload'
+              =yield :attachment_field
+              %br
+          ~#end attachment block
+          =f.submit t(:submit), :name => 'submit'  

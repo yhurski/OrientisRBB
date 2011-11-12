@@ -1,0 +1,44 @@
+%table#t1{:width => '90%'}
+    %tr#shapka
+        %th{:height => '10%', :align => 'left'}
+            =t(:delposts)
+    %tr
+        %th#title{:height => '30%', :align => 'left'}  
+            .inform_mess
+                %h3 
+                    =t(:postinfo)
+                %ul
+                    %li    
+                        =t(:delforum) 
+                        =Post.find(params[:id]).topic.subpartition.title
+                    %li    
+                        =t(:deltopic)
+                        =Post.find(params[:id]).topic.title
+                    %li
+                        =t(:postby) 
+                        =h @usr.name
+                        =t(:at)
+                        =Post.find(params[:id]).posted.to_s(:db) 
+    %tr
+        %td        
+            %table#post_table{:width => '90%', :align => 'center'}
+                %tr#post_title
+                    %td{:colspan => '2'}
+                        =link_to @dropped_post.posted.to_s(:db), :action => 'view_posts', :id => @dropped_post.topic.id, :page => params[:page], :anchor => "p#{@dropped_post.id}"
+                %tr
+                    %td#post_userbar{:width => '15%', :align => 'center', :valign => 'top'}
+                        %h4
+                            =h @dropped_post.poster
+                    %td#message{:width => '85%', :valign => 'top'}
+                        #post_text
+                            =h @dropped_post.message    
+    %tr
+        %td
+            %hr#divine_line{:width => '96%', :align => 'center'}    
+            .delete_form{:align => 'center'}                  
+                -form_tag :action => 'delete_post', :id => @dropped_post.id, :page => @page do
+                    =label_tag t(:please_confirm)
+                    =check_box_tag 'remove_acceptance',1,false
+                    %br
+                    =submit_tag t(:remove)
+                    =submit_tag t(:cancel)

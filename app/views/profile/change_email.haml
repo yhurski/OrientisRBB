@@ -1,0 +1,33 @@
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      %span#table_title
+        =t(:change_email)
+    %tr
+      %th#title{:width => '100%', :height => '30%', :align => 'left'}
+        -form_tag 'change_email' do
+          -field_set_tag t(:enter_new_email), {:id => 'change_pass_field'} do
+            .formError
+              =error_message_on 'usr', 'new_email', :css_class => 'inform_mess'
+            .formError
+              =error_message_on 'usr', 'email', :css_class => 'inform_mess'
+            #custom_param
+              %span
+                =label_tag t(:new_email)
+              #custom_change_pass
+                =text_field_tag "users[new_email]",nil,:size => 30   
+            %br
+            .formError
+              =error_message_on 'usr','passwd', :css_class => 'inform_mess' 
+            #custom_param
+              %span
+                =label_tag t(:password)
+              #custom_change_pass
+                =password_field_tag "users[passwd]",nil,:size => 30
+            %br
+            %small
+              =t(:email_for_confirmation_msg)
+            %br
+          =submit_tag t(:send)
+          &nbsp;&nbsp;&nbsp;
+          =link_to t(:back), :back

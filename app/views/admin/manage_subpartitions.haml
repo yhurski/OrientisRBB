@@ -1,0 +1,66 @@
+-if @partitions
+  .formError
+    =error_message_on 'new_subpartition', 'title', :css_class => 'inform_mess'
+  .formError
+    =error_message_on 'new_subpartition', 'part_pos', :css_class => 'inform_mess'
+  -form_tag 'manage_subpartitions' do
+    -field_set_tag t(:add_new_category) do
+      %span
+        =t(:category_name)
+      #custom_subpartition
+        -if params.has_key?(:add)
+          =text_field_tag 'add[title]', params[:add][:title], :size => 50, :maxlength => 255
+        -else
+          =text_field_tag 'add[title]', nil, :size => 50, :maxlength => 255
+      %br
+      %br
+      %span
+        =t(:position)
+      #custom_subpartition
+        -if params.has_key?(:add)
+          =text_field_tag 'add[part_pos]', params[:add][:part_pos], :size => 3, :maxlength => 5
+        -else
+          =text_field_tag 'add[part_pos]', 0, :size => 3, :maxlength => 5
+      %br
+      %br
+      %span
+        =t(:add_to_forum)
+      #custom_subpartition
+        -if params.has_key?(:add)
+          =select_tag 'add[partition_id]', options_for_select(@partitions.map{|part| [part.title, part.id]}, params[:add][:partition_id].to_i)
+        -else
+          =select_tag 'add[partition_id]', options_for_select(@partitions.map{|part| [part.title, part.id]})
+      %br
+      %br
+        =submit_tag t(:add_category)
+-else
+  %h3
+    =t(:first_add_forum)
+%br
+
+-if @partitions
+  -field_set_tag t(:edit_del_or_change) do
+    -for partition in @partitions do
+      %h3
+        =t :categories_in
+        =h partition.title
+        =t :forums
+        %br 
+      -unless partition.subpartitions.empty?
+        %b
+          =t(:forum_name)
+          =t(:position)
+          %br
+          -for subpartition in partition.subpartitions
+            =link_to t(:edit), :action => 'edit_subpartitions', :controller => 'admin', :id => subpartition.id
+            =t(:or)
+            =link_to t(:delete), :action => 'drop_subpartition', :controller => 'admin', :id => subpartition.id
+            =h subpartition.title
+            %br
+      -else
+        =t(:forum_is_empty)
+        %br
+        %hr
+-else
+  %h3
+    =t(:first_add_forum)

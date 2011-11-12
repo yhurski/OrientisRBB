@@ -1,0 +1,26 @@
+-if Configs.get_config('smtp_address').blank? || Configs.get_config('smtp_username').blank? || Configs.get_config('smtp_password').blank?
+  .formError
+    .inform_mess
+      =t(:smtp_warning)
+      =link_to t(:settings) + 'e-mail', :controller => 'admin', :action => 'email'
+      =t(:page)
+-if Report.is_have_new
+  .formError
+    .inform_mess
+      =t(:new_msg)
+-field_set_tag t(:app_info) do
+  %b
+  %span
+    =t(:board_version)
+  #custom_search
+    =Configs.get_config('board_title')
+    =Configs.get_config('board_version')
+  %br
+  -RailsInfo.properties.each do |property|
+    %b
+      %span#main
+        =t(property[0].gsub(/\s+/, '_'))
+      =": "
+    #custom_search
+      =property[1]
+    %br

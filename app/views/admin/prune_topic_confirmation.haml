@@ -1,0 +1,18 @@
+-unless flash[:prune][:days_old].to_i == 0 || flash[:prune][:numb_topics].to_i == 0
+  -form_tag '/admin/prune_topics' do
+    .inform_mess
+      %b
+        =t(:warn)
+      =t(:prune_perm)
+      =h flash[:prune][:numb_topics]
+      =t(:topics)
+      %br
+      %br
+      =t(:topics_deleted)
+      =h flash[:prune][:days_old] 
+      =t(:days_old)
+    .prune_btns{:align => 'center'}
+      =submit_tag t(:destroy_btn), :type => 'submit', :name => 'prune[confirm]'
+      =submit_tag t(:cancel_btn), :type => 'submit', :name => 'prune[confirm]'
+-else
+  =t(:no_topics)

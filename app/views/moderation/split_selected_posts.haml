@@ -1,0 +1,29 @@
+%table#t1{:width => '96%'}
+  %tr#shapka
+    %th{:width => '100%', :height => '10%', :align => 'left'}
+      =t(:confirm)
+    %tr  
+      %th#title{:width => '100%', :height => '30%', :align => 'left'}      
+        -form_tag "/moderation/index/#{params[:id]}" do |f|
+          -if @subj_missing
+            .formError
+              .inform_mess
+                =@subj_missing
+          -if @posts_missing
+            .formError
+              .inform_mess
+                =@posts_missing
+          =label_tag t(:subj)
+          =text_field_tag 'title',nil,:size => '50', :maxlength => '255'
+          %br
+          %br
+          Confirm splitting of all selected posts into a new topic.
+          -params[:selected_post].each_key do |key|  
+            =hidden_field_tag "selected_post[#{key}]", key
+            =hidden_field_tag "split_post_confirmation"
+          %br   
+          %hr
+          =submit_tag t(:split), :name => 'split_selected_posts'
+          =submit_tag t(:cancel), :name => 'split_selected_posts'
+        
+        

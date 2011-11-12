@@ -1,0 +1,21 @@
+-form_for '/admin/prune_topics' do
+  -field_set_tag t(:m_mode) do
+    .inform_mess
+      %b
+        =t(:important)
+      =t(:putting_in_maintenance)
+      %br
+      %b
+        =t(:dont_logout)
+      =t(:when_in_maintenance)
+    %span
+      =label_tag t(:activate_mmode)
+    =check_box_tag 'maintenance[enable]', 1, Configs.get_config('enable_maintenance').to_bool
+    %br
+    %span
+      =label_tag t(:m_msg)
+    =text_area_tag 'maintenance[message]', Configs.get_config('maintenance_text'), :size => '100x5'
+    %br
+    %br 
+  =submit_tag t(:save)
+    

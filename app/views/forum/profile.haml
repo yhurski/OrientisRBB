@@ -1,0 +1,118 @@
+%table#t1{:width => '90%'}
+    %tr#shapka
+        %th{:align => 'left'}
+            =t(:profile_title)
+    %tr
+        %td{:align => 'left'}            
+            -field_set_tag t(:personal_set) do
+                %b
+                    =t(:name_title)
+                =h @prof.name
+                %br
+                %b  
+                    =t(:status_title)
+                =h @prof.get_user_status      
+                %br
+                %b       
+                    =t(:real_name_title)
+                =h(@prof.realname) || "(n/a)"
+                %br
+                %b      
+                    =t(:location_title)
+                =h(@prof.location) || "(n/a)"
+                %br
+                %b         
+                    =t(:site_title)
+                =h(@prof.web) || "(n/a)"
+                %br
+            -field_set_tag 'Communication' do
+                %b
+                    =t(:jabber)
+                =h(@prof.jabber) || "(n/a)"
+                %br
+                %b  
+                    =t(:icq)
+                =h(@prof.icq) || "(n/a)"
+                %br
+                %b
+                    =t(:msn)
+                =h(@prof.msn) || "(n/a)"
+                %br
+                %b  
+                    =t(:aolim)
+                =h(@prof.aim) || "(n/a)"
+                %br
+                %b  
+                    =t(:yahoo)
+                =h(@prof.yahoo) || "(n/a)"
+                %br    
+            -if @prof.howshowemail.to_i < 2
+                -field_set_tag t(:email_contact) do
+                    %b
+                        -if @prof.howshowemail.to_i == 0
+                            =t(:email_title)
+                            =mail_to h(@prof.email)
+                            %br
+                        =t(:email_title) 
+                        =link_to t(:send_email), {:controller => 'forum', :action => 'send_email', :id => @prof.id}
+                    %br
+            -field_set_tag t(:personal_set) do
+                %b        
+                    =t(:signature_title)
+                =h(@prof.signature) || t(:not_avail)
+                %br
+            -field_set_tag t(:activity_set) do
+                -if Configs.get_config('allow_postcount').to_bool
+                    %b
+                        =t(:msg_title)
+                    =@prof.numposts
+                    -if @prof.numposts.to_bool
+                        =' - '
+                        =link_to t(:show_all_posts), {:controller => 'forum', :action => 'show_profile_posts', :id => @prof.id}
+                    %br
+                %b  
+                    =t(:last_post_title)
+                -if @usr
+                    =@usr.timedate_convert(@prof.last_post) || t(:never_title)
+                -else
+                    =universal_timedate_convert(@prof.last_post) || t(:never_title)
+                %br
+                %b  
+                    =t(:registered_title)
+                -if @usr
+                    =@usr.timedate_convert(@prof.regdatetime)
+                -else
+                    =universal_timedate_convert(@prof.regdatetime)
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                    
+                            
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    

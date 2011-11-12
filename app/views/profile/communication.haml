@@ -1,0 +1,34 @@
+-form_tag '/profile/communication' do 
+  -field_set_tag t(:settind_comm) do
+    .formError
+      =error_message_on 'usr', 'jabber', :prepend_text => t(:jabber_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'Jabber'
+      %br
+      =text_field_tag 'users[jabber]', @usr.jabber, :size => 50
+    .formError
+      =error_message_on 'usr', 'icq', :prepend_text => t(:icq_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag "ICQ", "ICQ"
+      %br
+      =text_field_tag 'users[icq]', @usr.icq, :size => 15
+    .formError
+      =error_message_on 'usr', 'msn', :prepend_text => t(:msn_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'MSN Messenger'
+      %br
+      =text_field_tag 'users[msn]', @usr.msn, :size => 50
+    .formError
+      =error_message_on 'usr', 'aim', :prepend_text => t(:aol_field), :css_class => 'inform_mess'
+    #custom_profile
+      =label_tag 'AOL IM', 'AOL IM'
+      %br
+      = text_field_tag 'users[aim]', @usr.aim, :size => 50
+    .formError
+      =error_message_on 'usr', 'yahoo', :prepend_text => t(:yahoo), :css_class => 'inform_mess'
+    #custom_profile
+      = label_tag 'Yahoo! Messenger', 'Yahoo! Messenger'
+      %br
+      = text_field_tag 'users[yahoo]', @usr.yahoo, :size => 30
+    %br
+  =submit_tag t(:save)

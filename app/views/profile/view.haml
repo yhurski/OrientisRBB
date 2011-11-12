@@ -1,0 +1,43 @@
+-form_for :users, @usr, :url => {:action => 'view' } do |f|
+ -field_set_tag t( :choice_style) do
+  #custom_param
+   %span
+    =t(:use_other_style)
+   #custom_profile_style
+    =f.select 'forum_style', options_for_select(@styles.map{|style| [style,style]}, @usr.forum_style)
+ - field_set_tag t(:choice_view_of_msg) do
+  %small
+   =t(:choice_for_slow_internet)
+  %br
+  =f.check_box(:smiles_to_img)
+  =t(:convert_smiles_in_img)
+  %br
+  = f.check_box :show_users_sign
+  =t(:show_signature)
+  %br
+  = f.check_box(:show_img_inmess )
+  =t(:show_img_in_msg)
+  %br
+  = f.check_box :show_img_insign
+  =t(:show_img_in_signature)
+ -field_set_tag t(:choice_view_of_page) do
+  .formError
+   =error_message_on 'usr', 'themes_per_page', :prepend_text => t(:themes_field), :css_class => 'inform_mess'
+  .formError
+   =error_message_on 'usr', 'posts_per_page', :prepend_text => t(:posts_field), :css_class => 'inform_mess'
+  %small
+   =t(:specify_number)
+  %br
+  %br
+  #custom_param
+   %span
+    = label_tag t(:themes)
+   #custom_profile_posts
+    = f.text_field :themes_per_page, :size => 4, :maxlength => 4
+  %br
+  #custom_param
+   %span
+    = label_tag t(:messages)
+   #custom_profile_posts
+    = f.text_field :posts_per_page, :size => 4, :maxlength => 4
+ =submit_tag t(:save)

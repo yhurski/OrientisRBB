@@ -1,0 +1,19 @@
+%table#t1{:width => '90%'}
+  %tr#shapka
+    %th{:align => 'left'}
+      =t(:send_email_to)
+      =h(@email_to_usr.name)
+      =t(:via_the_forum)
+  %tr
+    %td{:align => 'left'}    
+      -form_tag :action => 'send_email', :id => params[:id] do
+        %b
+          =label_tag t(:subject_title)
+        =text_field_tag 'subj',nil, :size => 70, :maxlength => 75
+        %br
+        %b
+          =label_tag t(:message_title)
+        =text_area_tag 'body',nil,:size => '95x10'
+        %hr#divine_line{:width => '90%'}
+        %br
+        =submit_tag t(:send_btn)

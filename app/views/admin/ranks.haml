@@ -1,0 +1,29 @@
+-field_set_tag t(:adding_new_rank) do
+    .inform_mess{:align => 'center'}
+        =t(:enter_ranks_msg)
+        =link_to t(:sett_feat), :controller => 'admin', :action => 'features'
+    -form_for :ranks, @rank, :url => {:action => 'ranks'} do |f|    
+        =f.error_messages
+        %br
+        #block
+            #cens1
+                =f.label t(:rank_title)
+                %br
+                =f.text_field  :rank
+            #cens2
+                =f.label t(:min_posts)
+                %br
+                =f.text_field :num_of_posts
+            #cens_btn
+                =f.submit t(:add_new_rank), :name => 'submit'
+    %br
+    -if @ranks && ! @ranks.empty?
+        %span
+            =t(:ex_ranks)
+        %br
+    -for rank in @ranks do    
+        -form_for :ranks, rank, :url => {:action => 'ranks', :id => rank.id}  do |f|
+            =f.text_field :rank
+            =f.text_field :num_of_posts
+            =f.submit t(:update), :name => 'submit'
+            =f.submit t(:remove), :name => 'submit'

@@ -1,0 +1,61 @@
+-if @topics.nil?
+  -for post in @posts
+    %table#post_table{:width => "96%", :align => "center", :border => "0"}
+      %tr#post_title
+        %td{:colspan => "2"}
+          =link_to post.topic.subpartition.title, {:controller=>'forum',:action=>'view_topics', :id=>post.topic.subpartition.id}
+          =' >> '
+          =link_to h(post.topic.title), {:controller=>'forum',:action=>'view_posts', :id=>post.topic.id}
+          =' >> '
+          =link_to post.posted, {:controller=>'forum',:action=>'view_posts', :id=>post.topic.id}
+      %tr
+        %td#post_userbar{:width => "15%", :align => "center", :valign => "top"}
+          %h4
+            =h post.poster
+          %h5
+            %b
+              =t(:replies)
+              =post.topic.num_replies.to_s
+          %h5
+            =link_to t(:go), {:controller=>'forum',:action=>'view_posts', :id=>post.topic.id}
+        %td#message{:width => "85%", :valign => "top"}
+          .post_text
+            -if post.message.size > 300
+              = h(post.message[0..300]) + "..."
+              %br
+              %div{:align => "center"}
+                %h4
+                  =t(:skipped)
+            -else
+              = h post.message
+-else
+  -for top in @topics
+    <%# for post in top.posts.find(:all, :conditions => @qu) %>
+    -for post in top.posts.find(:all, :conditions => @raw_request)
+      %table#post_table{:width => "96%", :align => "center", border => "0"}
+        %tr#post_title
+          %td{:colspan => "2"}
+            =link_to top.subpartition.title, {:controller=>'forum',:action=>'view_topics', :id=>top.subpartition.id}
+            =' >> '
+            =link_to post.topic.title, {:controller=>'forum',:action=>'view_posts', :id=>top.id}
+            =' >> '
+            =link_to post.posted, {:controller=>'forum',:action=>'view_posts', :id=>top.id}
+        %tr
+          %td#post_userbar{:width => "15%", :align => "center", :valign => "top"}
+            %h4
+              =h post.poster
+            %h5
+              %b
+                =t(:replies) + top.num_replies.to_s
+            %h5
+              =link_to t(:go), {:controller=>'forum',:action=>'view_posts', :id=>top.id}
+          %td#message{:width => "85%", :valign => "top"}
+            #post_text
+              -if post.message.size > 300
+                = h(post.message[0..300]) + "..."
+                %br
+                %div{:align => "center"}
+                  %h4
+                    =t(:skipped)
+              -else
+                = h post.message

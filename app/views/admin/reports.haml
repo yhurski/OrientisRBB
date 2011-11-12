@@ -1,0 +1,57 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =will_paginate @reports, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+-unless @reports.empty?
+  -form_tag '/admin/reports', :id => 'reports_form' do
+    -@reports.count.times do |index|
+      %b
+        =index.next * (params[:page].to_i)
+      .report_mess
+        .inform_mess
+          %table.report_entity
+            %tr
+              %td.reports_left_col{:rowspan => '2'}
+                =t(:by)
+                -if @reports[index].user
+                  ~# if reports by same user what this read
+                  -if @reports[index].user == @usr
+                    =link_to h(@reports[index].user.name), :controller => 'profile', :action => 'main'
+                  -else
+                    =link_to h(@reports[index].user.name), :controller => 'forum', :action => 'profile', :id => @reports[index].user.id
+                %br
+                =@usr.timedate_convert(@reports[index].created_at)  
+              %td.reports_right_col{:width => '70%'}         
+                =@reports[index].message
+              %td{:rowspan => '2'}
+                =check_box_tag "reports[#{@reports[index].id}]",1  
+            %tr 
+              %td
+                -if @reports[index].subpartition
+                  =link_to @reports[index].subpartition.title, :controller => 'forum', :action => 'view_topics', :id => @reports[index].subpartition.id
+                -else
+                  =t(:subpart_del)
+                =" >> "
+                -if @reports[index].topic
+                  =link_to @reports[index].topic.title, :controller => 'forum', :action => 'view_posts', :id => @reports[index].topic.id
+                -else
+                  =t(:topic_del)
+                =" >> "
+                -if @reports[index].post
+                  =link_to t(:post) + "#{@reports[index].post.id}", :controller => 'forum', :action => 'view_posts', :id => @reports[index].topic.id,   |
+                                           :page => (@reports[index].topic.posts.sort{|p1,p2| p1.posted <=> p2.posted}.index(@reports[index].post).to_f/@usr.pagination_posts_amount.to_f).ceil,:anchor => "p#{@reports[index].post.id}"
+                -else
+                  =t(:post_del)
+      %br
+    %table{:width => '100%', :border => '0'}
+      %tr
+        %td{:width => '20%'}
+          =will_paginate @reports, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+    %hr
+    =submit_tag t(:update)
+    &nbsp;&nbsp;&nbsp;&nbsp;
+  =link_to t(:select_all), {:anchor => '#'}, :onclick => 'return turnon_checkboxes(document.getElementById("reports_form"));'
+-else
+  .inform_mess
+    =t(:no_reports)  
+          

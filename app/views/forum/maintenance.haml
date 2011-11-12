@@ -1,0 +1,12 @@
+%html
+  %head
+    %title
+  %body    
+    %table#maintenance_table{:align => 'center', :border => '1', :width => '60%'}
+      %tr
+        %th
+          =t(:maintenance_mode)
+      %tr
+        %td
+          #maintenance_div
+            =Configs.get_config('maintenance_text')  

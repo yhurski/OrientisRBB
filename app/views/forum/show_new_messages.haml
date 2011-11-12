@@ -1,0 +1,30 @@
+%table{:width => '100%', :border => '0'}
+  %tr
+    %td{:width => '20%'}
+      =will_paginate @topics, :previous_label => t(:will_paginate_prev), :next_label => t(:will_paginate_next)
+%table{:width => '100%'}
+  %tr#shapka
+    %th{:width => '30%'}
+      =t(:topics_foot)
+    %th{:width => '10%'}
+      =t(:forum_foot)
+    %th{:width => '20%'}
+      =t(:posts_foot)
+    %th
+      =t(:last_post_foot)
+  -for topic in @topics    
+    %tr
+      %td#title{:width => '30%'}
+        =link_to h(topic.title), :controller => 'forum', :action => 'view_posts', :id => topic.id
+        =t(:by_word)
+        =h(topic.poster)
+      %td#views{:align => 'center', :width => '10%'}
+        =link_to topic.subpartition.partition.title + ">>" + topic.subpartition.title, :controller => 'forum', :action => 'view_topics',  |
+                                                                                                                         :id => topic.subpartition.id                                      |          
+      %td#last_date_mess{:align => 'center', :width => '20%'}
+        =topic.num_replies
+      %td#last_user{:align => 'center', :width => '20%'}
+        =link_to @usr.timedate_convert(topic.last_post), :controller => 'forum', :action => 'view_posts', :id => topic.id,   |
+                                         :page => (topic.posts.sort{|p1,p2| p1.posted <=> p2.posted}.index(topic.last_post_object).to_f/@usr.pagination_posts_amount.to_f).ceil,:anchor => "p#{topic.last_post_id}"
+        =t(:by_word)
+        =h(topic.last_poster)              
